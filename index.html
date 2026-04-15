@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>GermanKeiv Minecraft Server</title>
   <style>
-    /* ========== RESET ========== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -21,7 +19,7 @@
     .bg {
       position: fixed;
       inset: 0;
-      z-index: -2;
+      z-index: -3;
       overflow: hidden;
       background: radial-gradient(circle at 20% 20%, rgba(0,255,174,0.18), transparent 45%),
                   radial-gradient(circle at 80% 30%, rgba(0,212,255,0.18), transparent 45%),
@@ -29,7 +27,6 @@
                   linear-gradient(120deg, #090979, #00d4ff);
       filter: saturate(1.2);
     }
-
     .stars, .stars2 {
       position: absolute;
       inset: -50%;
@@ -55,12 +52,7 @@
       100% { transform: translate(-2%, -2%); }
     }
 
-    .glow-orbs {
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-    }
+    .glow-orbs { position: absolute; inset: 0; z-index: -2; pointer-events: none; }
     .orb {
       position: absolute;
       width: 420px;
@@ -122,13 +114,13 @@
       transform: translateY(-1px);
     }
 
-    /* ========== LAYOUT ========== */
     main { padding-top: 62px; }
     section {
       padding: 80px 16px;
       text-align: center;
       max-width: 1100px;
       margin: 0 auto;
+      position: relative;
     }
     section h2 {
       margin-bottom: 14px;
@@ -175,13 +167,7 @@
       text-shadow: 0 12px 28px rgba(0,0,0,0.45);
     }
     .hero p { margin: 0 auto 18px; max-width: 760px; opacity: 0.95; }
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
+    .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -201,6 +187,34 @@
     .btn.secondary { background: rgba(255,255,255,0.08); color: #fff; }
     .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
 
+    /* ========== DECORATIVE MINECRAFT IMAGES (ANIMATED) ========== */
+    .decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.95;
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,0.35));
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      animation: bob 5s ease-in-out infinite alternate;
+    }
+    @keyframes bob {
+      0% { transform: translateY(0) rotate(-1deg) scale(1); }
+      100% { transform: translateY(-16px) rotate(1deg) scale(1.02); }
+    }
+    .decor.left {
+      left: -40px; top: 18px;
+      width: 220px;
+      animation-duration: 6s;
+    }
+    .decor.right {
+      right: -50px; bottom: 18px;
+      width: 240px;
+      animation-duration: 7s;
+    }
+    @media (max-width: 900px) {
+      .decor.left, .decor.right { display: none; }
+    }
+
     /* ========== CARDS / GRIDS ========== */
     .grid {
       display: grid;
@@ -218,7 +232,7 @@
     }
     .card h3 { margin-bottom: 6px; color: #00ffae; }
     .card p { opacity: 0.95; line-height: 1.45; }
-    .card button, .card .mini-btn {
+    .card button {
       margin-top: 12px;
       width: 100%;
       padding: 10px 12px;
@@ -230,7 +244,7 @@
       cursor: pointer;
       transition: transform 0.15s ease, background 0.15s ease;
     }
-    .card button:hover, .card .mini-btn:hover {
+    .card button:hover {
       transform: translateY(-1px);
       background: rgba(0,255,174,0.15);
     }
@@ -254,11 +268,7 @@
     @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
     /* ========== STAFF ========== */
-    .staff {
-      display: flex;
-      justify-content: center;
-      margin-top: 14px;
-    }
+    .staff { display: flex; justify-content: center; margin-top: 14px; }
     .staff-member {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.10);
@@ -276,7 +286,6 @@
       margin-bottom: 8px;
     }
     .staff-member h3 { color: #00ffae; margin-bottom: 4px; }
-    .staff-member p { opacity: 0.95; }
 
     /* ========== GAME ========== */
     #gameArea {
@@ -331,19 +340,10 @@
       outline: none;
     }
     input::placeholder { color: rgba(255,255,255,0.65); }
-    .note {
-      opacity: 0.92;
-      font-size: 13px;
-      line-height: 1.4;
-      margin-top: 10px;
-    }
+    .note { opacity: 0.92; font-size: 13px; line-height: 1.4; margin-top: 10px; }
 
     /* ========== DISCORD ========== */
-    .discord-wrap {
-      display: grid;
-      place-items: center;
-      gap: 10px;
-    }
+    .discord-wrap { display: grid; place-items: center; gap: 10px; }
     iframe {
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.10);
@@ -368,7 +368,6 @@
     }
     .gallery-container img:hover { transform: scale(1.04); filter: brightness(1.05); }
 
-    /* ========== FOOTER ========== */
     footer {
       padding: 26px 16px;
       text-align: center;
@@ -415,23 +414,9 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 16px 46px rgba(0,0,0,0.35);
     }
-    .audio-top {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .track {
-      text-align: left;
-      min-width: 0;
-    }
-    .track .label {
-      font-size: 11px;
-      opacity: 0.8;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-    }
+    .audio-top { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .track { text-align: left; min-width: 0; }
+    .track .label { font-size: 11px; opacity: 0.8; letter-spacing: 0.4px; text-transform: uppercase; }
     .track .name {
       font-weight: 900;
       font-size: 13px;
@@ -441,13 +426,7 @@
       max-width: 190px;
       color: #00ffae;
     }
-    .controls-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .controls-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
     .controls-row button {
       padding: 10px 10px;
       border-radius: 12px;
@@ -460,20 +439,9 @@
       flex: 1;
       min-width: 86px;
     }
-    .controls-row button:hover {
-      transform: translateY(-1px);
-      background: rgba(0,255,174,0.14);
-    }
-    .controls-row input[type="range"] {
-      width: 100%;
-      accent-color: #00ffae;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      padding: 0;
-    }
+    .controls-row button:hover { transform: translateY(-1px); background: rgba(0,255,174,0.14); }
+    .controls-row input[type="range"] { width: 100%; accent-color: #00ffae; cursor: pointer; background: transparent; border: none; padding: 0; }
 
-    /* ========== MOBILE NAV SPACING ========== */
     @media (max-width: 720px) {
       nav { align-items: flex-start; }
       .nav-links a { font-size: 13px; padding: 6px 8px; }
@@ -483,7 +451,6 @@
 </head>
 
 <body>
-  <!-- Background layers -->
   <div class="bg">
     <div class="stars"></div>
     <div class="stars2"></div>
@@ -494,29 +461,28 @@
     </div>
   </div>
 
-  <!-- Music Prompt Modal -->
   <div id="musicPrompt" class="modal">
     <div class="modal-content">
       <h2>Enable Background Music?</h2>
       <p>
-        Your browser blocks autoplay; this button makes it work. You can mute, change volume,
-        skip tracks, or pause anytime.
+        Click Enable Music to start. For GitHub Pages, local MP3 files are the most reliable.
       </p>
       <div class="btn-row">
         <button id="yesMusic" class="btn primary" type="button">Enable Music</button>
         <button id="noMusic" class="btn secondary" type="button">No Thanks</button>
       </div>
       <p class="tiny" style="margin-top:12px;">
-        Tip: If music does not start, click "Enable Music" again (some browsers are picky).
+        If it still does not play, open your site in a normal browser tab (not inside an app),
+        then click Enable Music again.
       </p>
     </div>
   </div>
 
-  <!-- Navbar -->
   <nav>
     <div class="logo">GermanKeiv</div>
     <ul class="nav-links">
       <li><a href="#home">Home</a></li>
+      <li><a href="#learn-more">Learn More</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#staff">Staff</a></li>
       <li><a href="#store">Store</a></li>
@@ -530,9 +496,11 @@
   </nav>
 
   <main>
-    <!-- Hero -->
     <section id="home" class="hero">
       <div class="hero-card">
+        <img class="decor left" alt="Minecraft art" src="https://wallpapercave.com/wp/wp5489910.jpg">
+        <img class="decor right" alt="Minecraft landscape" src="https://wallpapercave.com/wp/wp7243772.jpg">
+
         <h1>Welcome to GermanKeiv Minecraft Server</h1>
         <p class="sub">
           Join our community of builders, adventurers, and grinders. Survival vibes, events,
@@ -540,16 +508,45 @@
         </p>
         <div class="btn-row">
           <a class="btn primary" href="#discord">Join Discord</a>
-          <a class="btn secondary" href="#about">Learn More</a>
+          <a class="btn secondary" href="#learn-more">Learn More</a>
           <button class="btn secondary" id="openMusic" type="button">Music Settings</button>
         </div>
-        <p class="tiny">
-          Background music is optional and controllable (mute, volume, pause, next track).
-        </p>
+        <p class="tiny">Music is optional and fully controllable (pause, mute, volume, next track).</p>
       </div>
     </section>
 
-    <!-- About -->
+    <!-- Learn More (web info added) -->
+    <section id="learn-more">
+      <h2>Learn More</h2>
+      <p class="sub">
+        Info I found on the web about GermanKeiv:
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3>Java + Bedrock</h3>
+          <p>
+            GermanKeiv is described as supporting both Java and Bedrock editions, so more players can join together.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Community + Staff</h3>
+          <p>
+            It is described as having a welcoming community and a dedicated staff team focused on keeping it fun.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Owner Interaction</h3>
+          <p>
+            The owner is described as responsive to player questions and feedback (when available).
+          </p>
+        </div>
+      </div>
+      <p class="tiny">
+        If you want, tell me your server IP, game modes (survival, factions, etc.), rules, and key features,
+        and I will replace this section with your official info.
+      </p>
+    </section>
+
     <section id="about">
       <h2>About Our Server</h2>
       <p class="sub">
@@ -564,7 +561,6 @@
       </div>
     </section>
 
-    <!-- Staff -->
     <section id="staff">
       <h2>Meet the Team</h2>
       <p class="sub">The staff are here to keep things fun, fair, and active.</p>
@@ -579,7 +575,6 @@
       </div>
     </section>
 
-    <!-- Store -->
     <section id="store">
       <h2>Server Store</h2>
       <p class="sub">Support the community by grabbing ranks and perks (placeholders for now).</p>
@@ -588,51 +583,46 @@
         <div class="card">
           <h3>VIP Rank</h3>
           <p>Exclusive prefix, fly mode, and colored chat.</p>
-          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Coming Soon</button>
         </div>
         <div class="card">
           <h3>Elite Rank</h3>
           <p>All VIP perks plus special Discord access.</p>
-          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Coming Soon</button>
         </div>
         <div class="card">
           <h3>Ultra Rank</h3>
           <p>Top perks, special particles, and flex status.</p>
-          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Coming Soon</button>
         </div>
       </div>
-      <p class="tiny">
-        When you get a real store (Tebex, etc.), replace the buttons with links.
-      </p>
     </section>
 
-    <!-- Vote -->
     <section id="vote">
       <h2>Vote for Rewards</h2>
       <p class="sub">
-        Vote daily for rewards like diamonds and coins. Add your real voting links below.
+        Voting system is being built. These buttons are placeholders for now.
       </p>
 
       <div class="grid">
         <div class="card">
           <h3>MinecraftServers.org</h3>
-          <p>Vote and get in-game rewards.</p>
-          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+          <p>Vote link will be added soon.</p>
+          <button type="button" onclick="alert('Coming soon!')">Coming Soon</button>
         </div>
         <div class="card">
           <h3>TopG.org</h3>
-          <p>Boost server visibility and claim rewards.</p>
-          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+          <p>Vote link will be added soon.</p>
+          <button type="button" onclick="alert('Coming soon!')">Coming Soon</button>
         </div>
         <div class="card">
           <h3>Planet Minecraft</h3>
-          <p>Show love and grow the community.</p>
-          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+          <p>Vote link will be added soon.</p>
+          <button type="button" onclick="alert('Coming soon!')">Coming Soon</button>
         </div>
       </div>
     </section>
 
-    <!-- Game -->
     <section id="game">
       <h2>Mini Game (Clicker)</h2>
       <p class="sub">Click the block to score points. Just a fun page addon.</p>
@@ -644,13 +634,10 @@
           <button class="btn secondary" id="resetGame" type="button">Reset</button>
         </div>
         <div id="clickZone"></div>
-        <p class="tiny">
-          Tip: This is client-only, it resets on refresh. A real leaderboard would need a backend.
-        </p>
+        <p class="tiny">This resets on refresh (no backend).</p>
       </div>
     </section>
 
-    <!-- Login -->
     <section id="login">
       <h2>Login</h2>
       <p class="sub">This is a front-end demo login (no real accounts, no database).</p>
@@ -666,18 +653,16 @@
         </div>
         <button class="btn primary" type="submit">Login</button>
         <p class="note">
-          This is only a visual form. If you want real login/accounts, you need a backend
-          (GitHub Pages is static hosting).
+          This is only a visual form. For real login on GitHub Pages you need an external auth service.
         </p>
       </form>
     </section>
 
-    <!-- Discord -->
     <section id="discord">
       <h2>Join Our Discord</h2>
       <p class="sub">
-        Replace <strong>YOUR_DISCORD_ID</strong> in the iframe URL with your real server ID.
-        (Discord widget must be enabled in Server Settings.)
+        TikTok @tsmash link could not be fetched automatically (TikTok blocks access here).
+        Replace <strong>YOUR_DISCORD_ID</strong> below with your server ID, and put your invite link in the button.
       </p>
 
       <div class="discord-wrap">
@@ -691,15 +676,19 @@
           sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
         </iframe>
 
-        <button class="btn secondary" type="button" id="copyDiscordTip">How do I fix the Discord widget?</button>
-        <p class="tiny" id="discordTip" style="display:none; max-width: 820px;">
-          Go to Discord server settings, Widget, enable "Server Widget", then copy your Server ID.
-          Update the iframe URL: <code>widget?id=YOUR_DISCORD_ID</code>.
+        <div class="btn-row">
+          <a class="btn primary" id="discordInviteBtn" href="#" onclick="alert('Paste your real Discord invite link into the code!'); return false;">
+            Discord Invite (Add Link)
+          </a>
+        </div>
+
+        <p class="tiny" style="max-width:820px;">
+          Send me either (1) the Discord invite URL you want (example: https://discord.gg/xxxxx) or (2) the text from @tsmash TikTok bio,
+          and I will update this section exactly.
         </p>
       </div>
     </section>
 
-    <!-- Gallery -->
     <section id="gallery">
       <h2>Gallery</h2>
       <p class="sub">Screenshots, builds, and server vibes.</p>
@@ -711,7 +700,6 @@
       </div>
     </section>
 
-    <!-- Contact -->
     <section id="contact">
       <h2>Contact</h2>
       <p class="sub">Replace this with your real contact method.</p>
@@ -739,10 +727,8 @@
     </footer>
   </main>
 
-  <!-- Audio element -->
   <audio id="bgMusic" preload="auto"></audio>
 
-  <!-- Audio Controls -->
   <div class="audio-controls" aria-label="Audio controls">
     <div class="audio-top">
       <div class="track">
@@ -759,25 +745,22 @@
     </div>
 
     <div class="controls-row">
-      <div style="width:100%; text-align:left; font-size:11px; opacity:0.85; margin-bottom:6px;">
-        Volume
-      </div>
+      <div style="width:100%; text-align:left; font-size:11px; opacity:0.85; margin-bottom:6px;">Volume</div>
       <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
     </div>
 
     <p class="tiny" style="margin-top:10px;">
-      Music starts only after you click Enable Music (browser rule). If you want your own songs,
-      replace the MP3 links in the playlist in the JS.
+      Music uses local files (best for GitHub Pages). Put MP3s in <code>/music</code> folder.
     </p>
   </div>
 
   <script>
     /* =========================
-       MUSIC PLAYER (FIXED)
-       - Uses a playlist (not multiple <source> tags)
-       - Random start, next/prev, pause/play, mute, volume
-       - Remembers volume + mute in localStorage
-       - Respects autoplay restrictions via modal
+       MUSIC PLAYER (RELIABLE FOR GITHUB PAGES)
+       - Playlist uses LOCAL files (recommended)
+       - Enable Music modal satisfies autoplay rules
+       - Next/Prev/Pause/Play/Mute/Volume
+       - Saves volume/mute
     ========================== */
 
     const musicPrompt = document.getElementById('musicPrompt');
@@ -794,11 +777,11 @@
     const prevTrackBtn = document.getElementById('prevTrack');
     const nextTrackBtn = document.getElementById('nextTrack');
 
-    // Playlist: add/remove tracks here
+    // IMPORTANT: Put these files in your GitHub repo at /music/...
     const playlist = [
-      { name: "Minecraft Style Track 1", url: "https://files.catbox.moe/minecraft1.mp3" },
-      { name: "Minecraft Style Track 2", url: "https://files.catbox.moe/minecraft2.mp3" },
-      { name: "Minecraft Style Track 3", url: "https://files.catbox.moe/minecraft3.mp3" }
+      { name: "Minecraft Track 1", url: "music/track1.mp3" },
+      { name: "Minecraft Track 2", url: "music/track2.mp3" },
+      { name: "Minecraft Track 3", url: "music/track3.mp3" }
     ];
 
     let currentIndex = Math.floor(Math.random() * playlist.length);
@@ -821,7 +804,6 @@
         await audio.play();
         setButtonStates();
       } catch (e) {
-        // If play fails, show modal again so user can click
         musicPrompt.classList.add('show');
       }
     }
@@ -841,10 +823,8 @@
       if (autoPlay && userEnabledMusic) playMusic();
     }
 
-    // When a track ends, go to next
     audio.addEventListener('ended', () => nextTrack(true));
 
-    // Persist volume/mute
     function loadAudioPrefs() {
       const savedVol = localStorage.getItem("gk_volume");
       const savedMuted = localStorage.getItem("gk_muted");
@@ -872,7 +852,6 @@
 
     toggleMusicBtn.addEventListener('click', async () => {
       if (!userEnabledMusic) {
-        // If they never enabled music, open the prompt
         musicPrompt.classList.add('show');
         return;
       }
@@ -883,15 +862,12 @@
     nextTrackBtn.addEventListener('click', () => nextTrack(true));
     prevTrackBtn.addEventListener('click', () => prevTrack(true));
 
-    openMusic.addEventListener('click', () => {
-      musicPrompt.classList.add('show');
-    });
+    openMusic.addEventListener('click', () => musicPrompt.classList.add('show'));
 
     yesMusic.addEventListener('click', async () => {
       userEnabledMusic = true;
       musicPrompt.classList.remove('show');
 
-      // Ensure a track is loaded, then play
       if (!audio.src) loadTrack(currentIndex);
       await playMusic();
     });
@@ -902,12 +878,8 @@
       pauseMusic();
     });
 
-    // Initialize
     loadTrack(currentIndex);
     loadAudioPrefs();
-
-    // Show prompt on first load (optional behavior)
-    // If you do NOT want the prompt to appear automatically, comment this out:
     setTimeout(() => musicPrompt.classList.add('show'), 600);
 
     /* =========================
@@ -964,16 +936,6 @@
       alert(`Demo login only. Welcome, ${u || "player"}! (No real auth on GitHub Pages)`);
       loginForm.reset();
     });
-
-    /* =========================
-       DISCORD WIDGET TIP
-    ========================== */
-    const copyDiscordTip = document.getElementById('copyDiscordTip');
-    const discordTip = document.getElementById('discordTip');
-    copyDiscordTip.addEventListener('click', () => {
-      discordTip.style.display = (discordTip.style.display === "none") ? "block" : "none";
-    });
   </script>
 </body>
 </html>
-```
