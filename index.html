@@ -3,238 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GermanKeiv Network V7</title>
+<title>GermanKeiv Network V9</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* =========================
-   GLOBAL
-========================= */
-*{margin:0;padding:0;box-sizing:border-box}
-
+/* ================= BACKGROUND ================= */
 body{
+margin:0;
 font-family:Orbitron;
 color:white;
 overflow-x:hidden;
-scroll-behavior:smooth;
+background:radial-gradient(circle at 20% 20%,#00ffd5,transparent 40%),
+radial-gradient(circle at 80% 30%,#ff00cc,transparent 40%),
+radial-gradient(circle at 50% 80%,#7a00ff,transparent 40%),
+linear-gradient(120deg,#000,#0a001a);
+animation:bg 10s infinite alternate;
 }
 
-/* =========================
-   NEW NEBULA BACKGROUND (RAINBOW + MOVING)
-========================= */
-body{
-background: radial-gradient(circle at 20% 20%, #ff00cc, transparent 40%),
-radial-gradient(circle at 80% 30%, #00ffd5, transparent 40%),
-radial-gradient(circle at 50% 80%, #7a00ff, transparent 40%),
-linear-gradient(120deg, #0a001a, #000000);
-background-size:200% 200%;
-animation:nebula 12s infinite alternate;
-}
-
-@keyframes nebula{
+@keyframes bg{
 0%{background-position:0% 50%}
 100%{background-position:100% 50%}
 }
 
-/* =========================
-   PARTICLES CANVAS
-========================= */
-canvas{
+/* GRID */
+body::before{
+content:"";
 position:fixed;
-top:0;
-left:0;
+width:100%;
+height:100%;
+background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+background-size:50px 50px;
 z-index:-1;
 }
 
-/* =========================
-   NAV BAR (10+ ITEMS)
-========================= */
+/* NAV */
 nav{
 position:fixed;
 top:0;
 width:100%;
-background:rgba(0,0,0,0.55);
-backdrop-filter:blur(10px);
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:15px;
-padding:12px;
-z-index:10;
+gap:10px;
+padding:10px;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+z-index:999;
 }
 
 nav a{
 color:#00ffd5;
 text-decoration:none;
-font-size:14px;
-transition:.3s;
+font-size:13px;
 }
 
-nav a:hover{
-color:#ff00cc;
-transform:scale(1.1);
-}
-
-/* =========================
-   HERO
-========================= */
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+/* SECTIONS */
+section{
+padding:90px 10%;
 text-align:center;
 }
 
-.hero h1{
-font-size:95px;
-background:linear-gradient(90deg,#00ffd5,#ff00cc,#7a00ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-text-shadow:0 0 20px rgba(255,255,255,0.2);
-}
+h2{color:#00ffd5}
 
-.hero p{
-opacity:.85;
-font-size:20px;
-margin-top:10px;
+/* CARDS */
+.card{
+background:rgba(0,0,0,0.5);
+padding:20px;
+border-radius:10px;
+margin:10px;
+display:inline-block;
 }
 
 /* BUTTONS */
 button{
-margin-top:20px;
-padding:14px 30px;
+padding:10px 20px;
 border:none;
-border-radius:12px;
+border-radius:8px;
 background:linear-gradient(90deg,#00ffd5,#ff00cc);
 cursor:pointer;
-color:black;
-font-weight:bold;
-transition:.3s;
 }
 
-button:hover{
-transform:scale(1.1);
-box-shadow:0 0 25px #00ffd5;
-}
-
-/* =========================
-   SECTIONS
-========================= */
-section{
-padding:100px 10%;
-text-align:center;
-}
-
-h2{
-font-size:42px;
-margin-bottom:25px;
-color:#00ffd5;
-text-shadow:0 0 10px black;
-}
-
-/* =========================
-   GRID
-========================= */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
-
-.card{
-background:rgba(0,0,0,0.55);
-padding:25px;
-border-radius:12px;
-transition:.3s;
-backdrop-filter:blur(10px);
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px #ff00cc;
-}
-
-/* =========================
-   STATS
-========================= */
-.stats{
+/* LOGIN */
+#login{
+position:fixed;
+width:100%;
+height:100%;
 display:flex;
 justify-content:center;
-gap:50px;
-flex-wrap:wrap;
+align-items:center;
+background:linear-gradient(135deg,#000,#220044);
+z-index:9999;
+flex-direction:column;
 }
 
-.stat{
-font-size:22px;
-color:#ff00cc;
-}
-
-/* =========================
-   STAFF
-========================= */
-.staff{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:25px;
-}
-
-.staff-card{
+/* STORE */
+.store-item{
 background:rgba(0,0,0,0.5);
 padding:15px;
-border-radius:12px;
-width:180px;
-}
-
-.staff-card img{
-width:100%;
 border-radius:10px;
-}
-
-.owner{
-color:#ffd700;
-}
-
-.admin{
-color:#00ffd5;
-}
-
-.mod{
-color:#ff00cc;
-}
-
-/* =========================
-   ARCADE
-========================= */
-.arcade{
-background:rgba(0,0,0,0.5);
-padding:30px;
-border-radius:15px;
+margin:10px;
 display:inline-block;
-}
-
-/* =========================
-   LEADERBOARD
-========================= */
-#lb div{
-margin:6px;
-padding:10px;
-background:rgba(0,0,0,0.4);
-border-radius:8px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-footer{
-padding:40px;
-background:black;
-opacity:.8;
-margin-top:60px;
 }
 
 </style>
@@ -242,207 +113,127 @@ margin-top:60px;
 
 <body>
 
-<canvas id="p"></canvas>
+<!-- LOGIN SCREEN -->
+<div id="login">
+<h1>🔐 Login</h1>
+<input id="user" placeholder="Username" style="padding:10px;">
+<br><br>
+<button onclick="login()">Enter Server</button>
+</div>
 
-<!-- NAVIGATION (10+ LINKS) -->
+<!-- NAV -->
 <nav>
 <a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#features">Features</a>
-<a href="#join">Join</a>
-<a href="#stats">Stats</a>
-<a href="#arcade">Arcade</a>
-<a href="#leaderboard">Leaderboard</a>
-<a href="#staff">Staff</a>
-<a href="#discord">Discord</a>
-<a href="#rules">Rules</a>
+<a href="#store">Store</a>
 <a href="#vote">Vote</a>
+<a href="#profile">Profile</a>
+<a href="#arcade">Arcade</a>
 </nav>
 
-<!-- HERO -->
-<div class="hero" id="home">
-<h1>GermanKeiv</h1>
-<p>Minecraft Network • Java + Bedrock</p>
-<button onclick="copyIP()">Copy IP</button>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-<h2>About Server</h2>
-<p>GermanKeiv is a growing Minecraft community focused on survival, events, PvP, and creativity.</p>
+<!-- HOME -->
+<section id="home">
+<h1>GermanKeiv Network</h1>
+<p>Welcome <span id="pname"></span></p>
 </section>
 
-<!-- FEATURES -->
-<section id="features">
-<h2>Features</h2>
-
-<div class="grid">
-<div class="card">🌍 Crossplay</div>
-<div class="card">⚔ PvP System</div>
-<div class="card">🏆 Events</div>
-<div class="card">💰 Economy</div>
-<div class="card">🧑 Staff Team</div>
-<div class="card">⚡ Custom Plugins</div>
+<!-- PROFILE -->
+<section id="profile">
+<h2>Profile</h2>
+<div class="card">
+Name: <span id="nameOut"></span><br>
+Coins: <span id="coins">0</span>
 </div>
 </section>
 
-<!-- JOIN -->
-<section id="join">
-<h2>Join</h2>
-<h1 style="color:#ff00cc">play.germankeiv.com</h1>
+<!-- STORE -->
+<section id="store">
+<h2>Store 🛒</h2>
+
+<div class="store-item">
+Rank VIP - 100 coins<br>
+<button onclick="buy(100,'VIP')">Buy</button>
+</div>
+
+<div class="store-item">
+Sword Skin - 50 coins<br>
+<button onclick="buy(50,'Sword Skin')">Buy</button>
+</div>
+
+<div class="store-item">
+Pet Wolf - 150 coins<br>
+<button onclick="buy(150,'Wolf')">Buy</button>
+</div>
+
 </section>
 
-<!-- STATS -->
-<section id="stats">
-<h2>Live Stats</h2>
+<!-- VOTE -->
+<section id="vote">
+<h2>Vote 🗳</h2>
 
-<div class="stats">
-<div>Status: <span id="status">Loading...</span></div>
-<div>Players: <span id="players">0</span></div>
-</div>
+<p>Vote for the server and get coins</p>
+<button onclick="vote()">Vote Now</button>
 </section>
 
 <!-- ARCADE -->
 <section id="arcade">
-<h2>🎮 Arcade Zone</h2>
-
-<div class="arcade">
-
-<h3>Block Clicker ⛏</h3>
-<button onclick="mine()">Mine</button>
-<h2>Score: <span id="score">0</span></h2>
-
-<br>
-
-<h3>Lucky Spin 🎰</h3>
-<button onclick="spin()">Spin</button>
-<h3 id="spin">---</h3>
-
-</div>
+<h2>Arcade 🎮</h2>
+<button onclick="mine()">Mine (+coins)</button>
+<h3>Score: <span id="score">0</span></h3>
 </section>
-
-<!-- LEADERBOARD -->
-<section id="leaderboard">
-<h2>🏆 Leaderboard</h2>
-
-<input id="name" placeholder="Name" style="padding:10px;border-radius:8px;">
-<button onclick="save()">Save</button>
-
-<div id="lb"></div>
-</section>
-
-<!-- STAFF -->
-<section id="staff">
-<h2>Staff Team</h2>
-
-<div class="staff">
-
-<div class="staff-card">
-<img src="https://mc-heads.net/avatar/Steve">
-<h3 class="owner">Owner: Y elijah ten</h3>
-</div>
-
-<div class="staff-card">
-<img src="https://mc-heads.net/avatar/Notch">
-<h3 class="admin">Admin</h3>
-</div>
-
-<div class="staff-card">
-<img src="https://mc-heads.net/avatar/Alex">
-<h3 class="mod">Moderator</h3>
-</div>
-
-</div>
-</section>
-
-<!-- DISCORD -->
-<section id="discord">
-<h2>Discord</h2>
-
-<iframe src="https://discord.com/widget?id=YOUR_ID&theme=dark"
-width="350" height="500"></iframe>
-
-</section>
-
-<!-- FOOTER -->
-<footer>
-© 2026 GermanKeiv Network V7
-</footer>
 
 <script>
 
-/* COPY IP */
-function copyIP(){
-navigator.clipboard.writeText("play.germankeiv.com");
+/* ================= LOGIN ================= */
+let user="";
+let coins=0;
+let score=0;
+
+function login(){
+user=document.getElementById("user").value||"Player";
+
+document.getElementById("login").style.display="none";
+
+document.getElementById("pname").innerText=user;
+document.getElementById("nameOut").innerText=user;
+
+load();
 }
 
-/* SERVER STATUS */
-fetch("https://api.mcsrvstat.us/2/play.germankeiv.com")
-.then(r=>r.json())
-.then(d=>{
-document.getElementById("status").innerText=d.online?"Online":"Offline";
-document.getElementById("players").innerText=d.online?d.players.online:0;
-});
+function load(){
+coins=localStorage.getItem(user+"_coins")||0;
+document.getElementById("coins").innerText=coins;
+}
 
-/* ARCADE */
-let score=0;
+/* ================= STORE ================= */
+function buy(price,item){
+if(coins>=price){
+coins-=price;
+alert("Purchased "+item);
+save();
+}else{
+alert("Not enough coins");
+}
+}
+
+function save(){
+localStorage.setItem(user+"_coins",coins);
+document.getElementById("coins").innerText=coins;
+}
+
+/* ================= VOTE SYSTEM ================= */
+function vote(){
+alert("Thanks for voting! +50 coins");
+coins+=50;
+save();
+}
+
+/* ================= ARCADE ================= */
 function mine(){
 score++;
+coins++;
 document.getElementById("score").innerText=score;
+save();
 }
-
-function spin(){
-let items=["Diamond","Nothing","Gold","Lucky Win","XP Boost"];
-document.getElementById("spin").innerText=
-items[Math.floor(Math.random()*items.length)];
-}
-
-/* LEADERBOARD */
-function save(){
-let name=document.getElementById("name").value||"Player";
-let data=JSON.parse(localStorage.getItem("lb")||"[]");
-
-data.push({name,score});
-data=data.sort((a,b)=>b.score-a.score).slice(0,5);
-
-localStorage.setItem("lb",JSON.stringify(data));
-render();
-}
-
-function render(){
-let data=JSON.parse(localStorage.getItem("lb")||"[]");
-let box=document.getElementById("lb");
-box.innerHTML="";
-data.forEach((p,i)=>{
-box.innerHTML+=`<div>#${i+1} ${p.name} - ${p.score}</div>`;
-});
-}
-render();
-
-/* PARTICLES */
-const c=document.getElementById("p");
-const x=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
-
-let p=[];
-for(let i=0;i<100;i++){
-p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:Math.random()-0.5,vy:Math.random()-0.5});
-}
-
-function anim(){
-x.clearRect(0,0,c.width,c.height);
-p.forEach(o=>{
-o.x+=o.vx;o.y+=o.vy;
-if(o.x<0||o.x>c.width)o.vx*=-1;
-if(o.y<0||o.y>c.height)o.vy*=-1;
-
-x.fillStyle="#00ffd5";
-x.fillRect(o.x,o.y,2,2);
-});
-requestAnimationFrame(anim);
-}
-anim();
 
 </script>
 
