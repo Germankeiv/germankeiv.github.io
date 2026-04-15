@@ -3,48 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GermanKeiv Network V10</title>
+<title>GermanKeiv Network V11</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* ================= BACKGROUND ================= */
-body{
+/* ================================
+   GLOBAL RESET
+================================ */
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Orbitron;
-color:white;
-overflow-x:hidden;
-
-/* animated minecraft-style nebula */
-background:
-radial-gradient(circle at 20% 20%,#00ffd5,transparent 40%),
-radial-gradient(circle at 80% 30%,#ff00cc,transparent 40%),
-radial-gradient(circle at 50% 80%,#7a00ff,transparent 40%),
-linear-gradient(120deg,#000,#120018);
-background-size:300% 300%;
-animation:bgmove 10s infinite alternate;
 }
 
-@keyframes bgmove{
+body{
+color:white;
+overflow-x:hidden;
+}
+
+/* ================================
+   ADVANCED MINECRAFT-STYLE WORLD BG
+================================ */
+body{
+background:
+radial-gradient(circle at 15% 20%, #00ffd5 0%, transparent 40%),
+radial-gradient(circle at 85% 25%, #ff00cc 0%, transparent 45%),
+radial-gradient(circle at 50% 80%, #7a00ff 0%, transparent 50%),
+linear-gradient(120deg,#000,#0a001a,#000);
+background-size:400% 400%;
+animation:world 12s infinite alternate;
+}
+
+@keyframes world{
 0%{background-position:0% 50%}
 100%{background-position:100% 50%}
 }
 
-/* GRID */
+/* GRID LAYER */
 body::before{
 content:"";
 position:fixed;
 width:100%;
 height:100%;
 background-image:
-linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
-background-size:50px 50px;
+linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+background-size:60px 60px;
 z-index:-1;
 }
 
-/* LOGIN */
+/* ================================
+   LOGIN SCREEN
+================================ */
 #login{
 position:fixed;
 width:100%;
@@ -53,25 +66,34 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#000,#220044);
+background:linear-gradient(135deg,#000,#200030,#000);
 z-index:9999;
 }
 
-/* MUSIC SELECT (AFTER LOGIN) */
-#musicSelect{
-display:none;
+input{
+padding:12px;
+border-radius:8px;
+border:none;
+}
+
+/* ================================
+   MUSIC SCREEN
+================================ */
+#music{
 position:fixed;
 width:100%;
 height:100%;
-background:linear-gradient(135deg,#001,#400040);
-z-index:9998;
+display:none;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
+background:linear-gradient(135deg,#001,#300020);
+z-index:9998;
 }
 
-/* NAV */
+/* ================================
+   NAVIGATION (12 ITEMS)
+================================ */
 nav{
 position:fixed;
 top:0;
@@ -79,48 +101,98 @@ width:100%;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
-gap:10px;
+gap:12px;
 padding:10px;
 background:rgba(0,0,0,0.6);
-z-index:999;
 backdrop-filter:blur(10px);
+z-index:999;
 }
 
 nav a{
 color:#00ffd5;
 text-decoration:none;
-font-size:13px;
+font-size:12px;
+transition:.2s;
 }
 
-/* SECTIONS */
+nav a:hover{
+color:#ff00cc;
+transform:scale(1.1);
+}
+
+/* ================================
+   SECTIONS
+================================ */
 section{
 padding:90px 10%;
 text-align:center;
 }
 
-/* CARDS */
-.card{
-background:rgba(0,0,0,0.5);
-padding:20px;
-border-radius:10px;
-margin:10px;
-display:inline-block;
+h2{
+color:#00ffd5;
+font-size:38px;
+margin-bottom:20px;
 }
 
-/* BUTTON */
+/* ================================
+   CARDS SYSTEM
+================================ */
+.card{
+background:rgba(0,0,0,0.55);
+padding:18px;
+border-radius:12px;
+margin:10px;
+display:inline-block;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 20px #00ffd5;
+}
+
+/* ================================
+   BUTTONS
+================================ */
 button{
-padding:10px 20px;
+padding:10px 18px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:linear-gradient(90deg,#00ffd5,#ff00cc);
 cursor:pointer;
 font-weight:bold;
+margin-top:10px;
 }
 
-/* STAFF */
+/* ================================
+   RIGHT SIDE AUDIO PANEL
+================================ */
+#audioPanel{
+position:fixed;
+right:10px;
+bottom:10px;
+background:rgba(0,0,0,0.6);
+padding:10px;
+border-radius:10px;
+z-index:9999;
+}
+
+/* ================================
+   STAFF
+================================ */
 .owner{color:#ffd700}
 .admin{color:#00ffd5}
 .mod{color:#ff00cc}
+
+/* ================================
+   LEADERBOARD
+================================ */
+#lb div{
+margin:5px;
+padding:10px;
+background:rgba(0,0,0,0.4);
+border-radius:8px;
+}
 
 </style>
 </head>
@@ -130,25 +202,28 @@ font-weight:bold;
 <!-- LOGIN -->
 <div id="login">
 <h1>🔐 Login</h1>
-<input id="user" placeholder="Username" style="padding:10px;">
-<br><br>
+<input id="user" placeholder="Username">
 <button onclick="login()">Enter</button>
 </div>
 
-<!-- MUSIC SELECT (NEW FIXED FEATURE) -->
-<div id="musicSelect">
-<h1>🎵 Background Music</h1>
-<p>Do you want music enabled?</p>
-
-<button onclick="musicChoice(true)">YES 🎧</button>
-<button onclick="musicChoice(false)">NO 🔇</button>
+<!-- MUSIC SCREEN -->
+<div id="music">
+<h1>🎵 Enable Music?</h1>
+<button onclick="music(true)">YES</button>
+<button onclick="music(false)">NO</button>
 
 <br><br>
+Volume
+<input type="range" min="0" max="1" step="0.01" oninput="setVol(this.value)">
+<button onclick="mute()">Mute</button>
+</div>
 
-<p>Volume</p>
-<input type="range" min="0" max="1" step="0.01" oninput="setVolume(this.value)">
-<br><br>
-
+<!-- AUDIO PANEL -->
+<div id="audioPanel">
+🎧 Audio Panel
+<br>
+<input type="range" min="0" max="1" step="0.01" oninput="setVol(this.value)">
+<br>
 <button onclick="mute()">Mute</button>
 </div>
 
@@ -158,69 +233,70 @@ font-weight:bold;
 <a href="#store">Store</a>
 <a href="#vote">Vote</a>
 <a href="#arcade">Arcade</a>
+<a href="#pvp">PvP</a>
+<a href="#economy">Economy</a>
 <a href="#leaderboard">Leaderboard</a>
 <a href="#staff">Staff</a>
 <a href="#discord">Discord</a>
+<a href="#rules">Rules</a>
+<a href="#vote2">Vote2</a>
+<a href="#profile">Profile</a>
 </nav>
 
 <!-- HOME -->
 <section id="home">
 <h1>GermanKeiv Network</h1>
-<p>Welcome <span id="pname"></span></p>
+<p>Welcome <span id="nameOut"></span></p>
 </section>
 
 <!-- STORE -->
 <section id="store">
 <h2>Store 🛒</h2>
-
-<div class="card">
-VIP Rank - 100 coins
-<button onclick="buy(100)">Buy</button>
-</div>
-
-<div class="card">
-Sword Skin - 50 coins
-<button onclick="buy(50)">Buy</button>
-</div>
-
+<div class="card">VIP Rank<button onclick="buy(100)">Buy</button></div>
+<div class="card">Sword Skin<button onclick="buy(50)">Buy</button></div>
+<div class="card">Pet Wolf<button onclick="buy(150)">Buy</button></div>
 </section>
 
 <!-- VOTE -->
 <section id="vote">
 <h2>Vote 🗳</h2>
-<button onclick="vote()">Vote for Rewards</button>
+<button onclick="vote()">Vote for Coins</button>
 </section>
 
 <!-- ARCADE -->
 <section id="arcade">
 <h2>Arcade 🎮</h2>
+
+<div class="card">
 <button onclick="mine()">Mine</button>
 <h3>Score: <span id="score">0</span></h3>
+</div>
+
+<div class="card">
+<button onclick="pvp()">PvP Duel</button>
+<h3 id="pvp">---</h3>
+</div>
+
+<div class="card">
+<button onclick="spin()">Spin Wheel</button>
+<h3 id="spin">---</h3>
+</div>
+
 </section>
 
 <!-- LEADERBOARD -->
 <section id="leaderboard">
 <h2>Leaderboard 🏆</h2>
-<button onclick="saveScore()">Save Score</button>
+<button onclick="save()">Save Score</button>
 <div id="lb"></div>
 </section>
 
 <!-- STAFF -->
 <section id="staff">
-<h2>Staff Team</h2>
-
-<div class="card">
-Owner: Y elijah ten
-</div>
-
-<div class="card admin">
-Admin Team
-</div>
-
-<div class="card mod">
-Moderators
-</div>
-
+<h2>Staff</h2>
+<div class="card owner">Owner: Y elijah ten</div>
+<div class="card admin">Admin Team</div>
+<div class="card mod">Moderators</div>
 </section>
 
 <!-- DISCORD -->
@@ -238,24 +314,23 @@ let score=0;
 
 function login(){
 user=document.getElementById("user").value||"Player";
-
 document.getElementById("login").style.display="none";
-document.getElementById("musicSelect").style.display="flex";
+document.getElementById("music").style.display="flex";
+document.getElementById("nameOut").innerText=user;
 }
 
-/* ================= MUSIC SYSTEM ================= */
+/* ================= MUSIC ================= */
 let audio=new Audio();
 let muted=false;
 
 const songs=[
-"https://cdn.pixabay.com/audio/2022/03/15/ambient.mp3",
-"https://cdn.pixabay.com/audio/2022/10/soft.mp3",
-"https://cdn.pixabay.com/audio/2023/chill.mp3"
+"https://cdn.pixabay.com/audio/ambient1.mp3",
+"https://cdn.pixabay.com/audio/ambient2.mp3",
+"https://cdn.pixabay.com/audio/ambient3.mp3"
 ];
 
-function musicChoice(on){
-document.getElementById("musicSelect").style.display="none";
-
+function music(on){
+document.getElementById("music").style.display="none";
 if(!on)return;
 
 audio.src=songs[Math.floor(Math.random()*songs.length)];
@@ -263,38 +338,25 @@ audio.loop=true;
 audio.play();
 }
 
-function setVolume(v){
-audio.volume=v;
-}
+function setVol(v){audio.volume=v;}
+function mute(){muted=!muted;audio.muted=muted;}
 
-function mute(){
-muted=!muted;
-audio.muted=muted;
-}
-
-/* ================= GAME ================= */
-function mine(){
-score++;
-coins++;
-document.getElementById("score").innerText=score;
-}
+/* ================= ARCADE ================= */
+function mine(){score++;coins++;}
+function spin(){document.getElementById("spin").innerText=["Diamond","Gold","Nothing"][Math.floor(Math.random()*3)];}
+function pvp(){document.getElementById("pvp").innerText=Math.random()>0.5?"Win":"Lose";}
 
 /* ================= STORE ================= */
-function buy(price){
-if(coins>=price){
-coins-=price;
-alert("Purchased!");
-}else alert("Not enough coins");
+function buy(p){
+if(coins>=p){coins-=p;alert("Bought!");}
+else alert("Not enough coins");
 }
 
 /* ================= VOTE ================= */
-function vote(){
-coins+=50;
-alert("+50 coins for voting!");
-}
+function vote(){coins+=50;alert("+50 coins");}
 
 /* ================= LEADERBOARD ================= */
-function saveScore(){
+function save(){
 let data=JSON.parse(localStorage.getItem("lb")||"[]");
 data.push({user,score});
 data=data.sort((a,b)=>b.score-a.score).slice(0,5);
