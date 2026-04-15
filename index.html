@@ -1,53 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GermanKeiv Minecraft Server</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GermanKeiv Network</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box}
+/* =========================
+   GLOBAL RESET
+========================= */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 font-family:Orbitron;
-background:#050505;
-color:white;
 overflow-x:hidden;
-scroll-behavior:smooth;
+color:white;
 }
 
-/* BACKGROUND ANIMATION */
-body::before{
-content:"";
+/* =========================
+   ANIMATED GRADIENT BG
+========================= */
+body{
+background: linear-gradient(-45deg,
+#0f0c29,
+#302b63,
+#24243e,
+#00ffd5);
+background-size:400% 400%;
+animation: gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* =========================
+   PARTICLES CANVAS
+========================= */
+canvas{
 position:fixed;
-width:200%;
-height:200%;
-background:radial-gradient(circle,#00ffd530 1px,transparent 1px);
-background-size:50px 50px;
-animation:bg 60s linear infinite;
+top:0;
+left:0;
 z-index:-1;
 }
 
-@keyframes bg{
-from{transform:translate(0,0)}
-to{transform:translate(-300px,-300px)}
-}
-
-/* NAV */
+/* =========================
+   NAVBAR
+========================= */
 nav{
 position:fixed;
 top:0;
 width:100%;
-background:#000000cc;
-backdrop-filter:blur(8px);
 display:flex;
 justify-content:center;
 gap:25px;
 padding:15px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(10px);
 z-index:10;
 }
 
@@ -57,9 +75,14 @@ text-decoration:none;
 transition:.3s;
 }
 
-nav a:hover{color:#00ffd5}
+nav a:hover{
+color:#00ffd5;
+transform:scale(1.1);
+}
 
-/* HERO */
+/* =========================
+   HERO
+========================= */
 .hero{
 height:100vh;
 display:flex;
@@ -70,21 +93,26 @@ text-align:center;
 }
 
 .hero h1{
-font-size:80px;
-color:#00ffd5;
+font-size:90px;
 text-shadow:0 0 30px #00ffd5;
+animation:pulse 3s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1)}
 }
 
 .hero p{
-opacity:.8;
+opacity:.85;
 margin-top:10px;
 font-size:20px;
 }
 
-/* BUTTON */
 button{
 margin-top:20px;
-padding:15px 35px;
+padding:15px 30px;
 border:none;
 border-radius:10px;
 background:#00ffd5;
@@ -98,7 +126,9 @@ transform:scale(1.1);
 box-shadow:0 0 20px #00ffd5;
 }
 
-/* SECTIONS */
+/* =========================
+   SECTIONS
+========================= */
 section{
 padding:100px 10%;
 text-align:center;
@@ -108,9 +138,12 @@ h2{
 font-size:40px;
 margin-bottom:30px;
 color:#00ffd5;
+text-shadow:0 0 10px black;
 }
 
-/* GRID */
+/* =========================
+   CARDS
+========================= */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -118,45 +151,65 @@ gap:20px;
 }
 
 .card{
-background:#0f0f0f;
+background:rgba(0,0,0,0.5);
 padding:25px;
-border-radius:10px;
-transition:.3s;
+border-radius:12px;
+transition:.4s;
+backdrop-filter:blur(10px);
 }
 
 .card:hover{
 transform:translateY(-10px);
-box-shadow:0 0 20px #00ffd5;
+box-shadow:0 0 25px #00ffd5;
 }
 
-/* STATS */
+/* =========================
+   STATS
+========================= */
 .stats{
 display:flex;
 justify-content:center;
-gap:40px;
+gap:50px;
 flex-wrap:wrap;
 }
 
-/* ARCade */
-.arcade-box{
-background:#0f0f0f;
-padding:30px;
-border-radius:12px;
-display:inline-block;
-margin-top:20px;
+.stat{
+font-size:22px;
 }
 
-/* FOOTER */
-footer{
-padding:40px;
-background:black;
-opacity:.7;
-margin-top:60px;
+/* =========================
+   ARCADE
+========================= */
+.arcade-box{
+background:rgba(0,0,0,0.5);
+padding:30px;
+border-radius:15px;
+display:inline-block;
+backdrop-filter:blur(10px);
 }
 
 .small{
-opacity:.7;
+opacity:.8;
 font-size:14px;
+}
+
+/* =========================
+   LEADERBOARD
+========================= */
+#leaderboardList div{
+margin:5px;
+padding:10px;
+background:rgba(0,0,0,0.4);
+border-radius:8px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer{
+padding:40px;
+background:rgba(0,0,0,0.6);
+margin-top:60px;
 }
 
 </style>
@@ -164,128 +217,215 @@ font-size:14px;
 
 <body>
 
+<canvas id="particles"></canvas>
+
 <nav>
 <a href="#about">About</a>
 <a href="#features">Features</a>
 <a href="#join">Join</a>
 <a href="#stats">Stats</a>
 <a href="#arcade">Arcade</a>
+<a href="#leaderboard">Leaderboard</a>
 <a href="#discord">Discord</a>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
 <h1>GermanKeiv</h1>
-<p>Minecraft Java + Bedrock Community Server</p>
-
-<button onclick="copyIP()">Copy Server IP</button>
+<p>Minecraft Network • Java + Bedrock</p>
+<button onclick="copyIP()">Copy IP</button>
 </div>
 
+<!-- ABOUT -->
 <section id="about">
 <h2>About</h2>
-<p>GermanKeiv is a Minecraft community server focused on survival, building, events, and a friendly player base for Java and Bedrock players.</p>
+<p>GermanKeiv is a Minecraft community server focused on survival, building, events, and a growing player base.</p>
 </section>
 
+<!-- FEATURES -->
 <section id="features">
 <h2>Features</h2>
 
 <div class="grid">
-<div class="card">Crossplay Support</div>
-<div class="card">Survival & Economy</div>
-<div class="card">Events & Competitions</div>
-<div class="card">Active Staff</div>
-<div class="card">Custom Systems</div>
-<div class="card">Community Focused</div>
+<div class="card">🌍 Crossplay</div>
+<div class="card">⚔ PvP & Survival</div>
+<div class="card">🏆 Events</div>
+<div class="card">🛒 Economy</div>
+<div class="card">🧑 Friendly Staff</div>
+<div class="card">⚡ Custom Systems</div>
 </div>
 </section>
 
+<!-- JOIN -->
 <section id="join">
 <h2>Join Server</h2>
 <h1>play.germankeiv.com</h1>
-<p class="small">Click the button above to copy IP</p>
+<p class="small">Click copy button above</p>
 </section>
 
+<!-- STATS -->
 <section id="stats">
 <h2>Live Stats</h2>
 
 <div class="stats">
-<div>Status: <span id="status">Loading...</span></div>
-<div>Players: <span id="players">0</span></div>
+<div class="stat">Status: <span id="status">Loading...</span></div>
+<div class="stat">Players: <span id="players">0</span></div>
 </div>
 </section>
 
+<!-- ARCADE -->
 <section id="arcade">
-<h2>🎮 Arcade Zone</h2>
+<h2>🎮 Arcade Hub</h2>
 
 <div class="arcade-box">
 
 <h3>Block Clicker ⛏</h3>
+<button onclick="mine()">Mine Block</button>
 
-<p>Click to mine blocks and gain points!</p>
+<h2>Score: <span id="score">0</span></h2>
 
-<button onclick="addPoint()">Mine Block</button>
+<br>
 
-<h2 style="margin-top:20px">
-Score: <span id="score">0</span>
-</h2>
-
-<button onclick="resetGame()" style="background:red;color:white">
-Reset Score
-</button>
+<h3>Lucky Spin 🎰</h3>
+<button onclick="spin()">Spin</button>
+<h3 id="spinResult">---</h3>
 
 </div>
 </section>
 
+<!-- LEADERBOARD -->
+<section id="leaderboard">
+<h2>🏆 Leaderboard</h2>
+
+<input id="name" placeholder="Enter name" style="padding:10px;border-radius:8px;">
+<button onclick="saveScore()">Save Score</button>
+
+<div id="leaderboardList"></div>
+</section>
+
+<!-- DISCORD -->
 <section id="discord">
 <h2>Discord</h2>
 
 <iframe
 src="https://discord.com/widget?id=YOUR_SERVER_ID&theme=dark"
-width="350"
-height="500">
+width="350" height="500">
 </iframe>
 
 </section>
 
 <footer>
-© 2026 GermanKeiv Minecraft Server
+© 2026 GermanKeiv Network
 </footer>
 
 <script>
 
-/* COPY IP */
+/* =========================
+   COPY IP
+========================= */
 function copyIP(){
 navigator.clipboard.writeText("play.germankeiv.com");
-alert("Server IP copied!");
+alert("Copied!");
 }
 
-/* SERVER STATUS */
+/* =========================
+   SERVER STATUS (SAFE FALLBACK)
+========================= */
 fetch("https://api.mcsrvstat.us/2/play.germankeiv.com")
 .then(r=>r.json())
-.then(data=>{
-if(data.online){
+.then(d=>{
+if(d.online){
 document.getElementById("status").innerText="Online";
-document.getElementById("players").innerText=data.players.online;
+document.getElementById("players").innerText=d.players.online;
 }else{
 document.getElementById("status").innerText="Offline";
-document.getElementById("players").innerText="0";
 }
 });
 
-/* ARCADE GAME */
-let score = localStorage.getItem("score") || 0;
-document.getElementById("score").innerText = score;
+/* =========================
+   ARCADE GAME
+========================= */
+let score = 0;
 
-function addPoint(){
+function mine(){
 score++;
 document.getElementById("score").innerText = score;
-localStorage.setItem("score", score);
 }
 
-function resetGame(){
-score = 0;
-document.getElementById("score").innerText = score;
-localStorage.setItem("score", score);
+function spin(){
+let items=["Diamond","Nothing","Gold","Lucky Win","Stone"];
+let result = items[Math.floor(Math.random()*items.length)];
+document.getElementById("spinResult").innerText=result;
 }
+
+/* =========================
+   LEADERBOARD (LOCAL)
+========================= */
+function saveScore(){
+let name = document.getElementById("name").value || "Player";
+let data = JSON.parse(localStorage.getItem("lb")||"[]");
+
+data.push({name,score});
+data.sort((a,b)=>b.score-a.score);
+data = data.slice(0,5);
+
+localStorage.setItem("lb",JSON.stringify(data));
+renderLB();
+}
+
+function renderLB(){
+let data = JSON.parse(localStorage.getItem("lb")||"[]");
+let box = document.getElementById("leaderboardList");
+box.innerHTML="";
+
+data.forEach((p,i)=>{
+box.innerHTML += `<div>#${i+1} ${p.name} - ${p.score}</div>`;
+});
+}
+
+renderLB();
+
+/* =========================
+   PARTICLES SYSTEM
+========================= */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3,
+dx:Math.random()-0.5,
+dy:Math.random()-0.5
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+for(let p of particles){
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width)p.dx*=-1;
+if(p.y<0||p.y>canvas.height)p.dy*=-1;
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="#00ffd5";
+ctx.fill();
+}
+
+requestAnimationFrame(animate);
+}
+
+animate();
 
 </script>
 
