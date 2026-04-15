@@ -3,44 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GermanKeiv Network</title>
+<title>GermanKeiv Network V7</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 
 /* =========================
-   GLOBAL RESET
+   GLOBAL
 ========================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 font-family:Orbitron;
-overflow-x:hidden;
 color:white;
+overflow-x:hidden;
+scroll-behavior:smooth;
 }
 
 /* =========================
-   ANIMATED GRADIENT BG
+   NEW NEBULA BACKGROUND (RAINBOW + MOVING)
 ========================= */
 body{
-background: linear-gradient(-45deg,
-#0f0c29,
-#302b63,
-#24243e,
-#00ffd5);
-background-size:400% 400%;
-animation: gradientBG 12s ease infinite;
+background: radial-gradient(circle at 20% 20%, #ff00cc, transparent 40%),
+radial-gradient(circle at 80% 30%, #00ffd5, transparent 40%),
+radial-gradient(circle at 50% 80%, #7a00ff, transparent 40%),
+linear-gradient(120deg, #0a001a, #000000);
+background-size:200% 200%;
+animation:nebula 12s infinite alternate;
 }
 
-@keyframes gradientBG{
+@keyframes nebula{
 0%{background-position:0% 50%}
-50%{background-position:100% 50%}
-100%{background-position:0% 50%}
+100%{background-position:100% 50%}
 }
 
 /* =========================
@@ -54,29 +49,31 @@ z-index:-1;
 }
 
 /* =========================
-   NAVBAR
+   NAV BAR (10+ ITEMS)
 ========================= */
 nav{
 position:fixed;
 top:0;
 width:100%;
+background:rgba(0,0,0,0.55);
+backdrop-filter:blur(10px);
 display:flex;
 justify-content:center;
-gap:25px;
-padding:15px;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
+flex-wrap:wrap;
+gap:15px;
+padding:12px;
 z-index:10;
 }
 
 nav a{
-color:white;
+color:#00ffd5;
 text-decoration:none;
+font-size:14px;
 transition:.3s;
 }
 
 nav a:hover{
-color:#00ffd5;
+color:#ff00cc;
 transform:scale(1.1);
 }
 
@@ -93,37 +90,35 @@ text-align:center;
 }
 
 .hero h1{
-font-size:90px;
-text-shadow:0 0 30px #00ffd5;
-animation:pulse 3s infinite;
-}
-
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.05)}
-100%{transform:scale(1)}
+font-size:95px;
+background:linear-gradient(90deg,#00ffd5,#ff00cc,#7a00ff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 20px rgba(255,255,255,0.2);
 }
 
 .hero p{
 opacity:.85;
-margin-top:10px;
 font-size:20px;
+margin-top:10px;
 }
 
+/* BUTTONS */
 button{
 margin-top:20px;
-padding:15px 30px;
+padding:14px 30px;
 border:none;
-border-radius:10px;
-background:#00ffd5;
+border-radius:12px;
+background:linear-gradient(90deg,#00ffd5,#ff00cc);
 cursor:pointer;
-font-size:16px;
+color:black;
+font-weight:bold;
 transition:.3s;
 }
 
 button:hover{
 transform:scale(1.1);
-box-shadow:0 0 20px #00ffd5;
+box-shadow:0 0 25px #00ffd5;
 }
 
 /* =========================
@@ -135,14 +130,14 @@ text-align:center;
 }
 
 h2{
-font-size:40px;
-margin-bottom:30px;
+font-size:42px;
+margin-bottom:25px;
 color:#00ffd5;
 text-shadow:0 0 10px black;
 }
 
 /* =========================
-   CARDS
+   GRID
 ========================= */
 .grid{
 display:grid;
@@ -151,16 +146,16 @@ gap:20px;
 }
 
 .card{
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.55);
 padding:25px;
 border-radius:12px;
-transition:.4s;
+transition:.3s;
 backdrop-filter:blur(10px);
 }
 
 .card:hover{
 transform:translateY(-10px);
-box-shadow:0 0 25px #00ffd5;
+box-shadow:0 0 25px #ff00cc;
 }
 
 /* =========================
@@ -175,29 +170,58 @@ flex-wrap:wrap;
 
 .stat{
 font-size:22px;
+color:#ff00cc;
+}
+
+/* =========================
+   STAFF
+========================= */
+.staff{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:25px;
+}
+
+.staff-card{
+background:rgba(0,0,0,0.5);
+padding:15px;
+border-radius:12px;
+width:180px;
+}
+
+.staff-card img{
+width:100%;
+border-radius:10px;
+}
+
+.owner{
+color:#ffd700;
+}
+
+.admin{
+color:#00ffd5;
+}
+
+.mod{
+color:#ff00cc;
 }
 
 /* =========================
    ARCADE
 ========================= */
-.arcade-box{
+.arcade{
 background:rgba(0,0,0,0.5);
 padding:30px;
 border-radius:15px;
 display:inline-block;
-backdrop-filter:blur(10px);
-}
-
-.small{
-opacity:.8;
-font-size:14px;
 }
 
 /* =========================
    LEADERBOARD
 ========================= */
-#leaderboardList div{
-margin:5px;
+#lb div{
+margin:6px;
 padding:10px;
 background:rgba(0,0,0,0.4);
 border-radius:8px;
@@ -208,7 +232,8 @@ border-radius:8px;
 ========================= */
 footer{
 padding:40px;
-background:rgba(0,0,0,0.6);
+background:black;
+opacity:.8;
 margin-top:60px;
 }
 
@@ -217,20 +242,25 @@ margin-top:60px;
 
 <body>
 
-<canvas id="particles"></canvas>
+<canvas id="p"></canvas>
 
+<!-- NAVIGATION (10+ LINKS) -->
 <nav>
+<a href="#home">Home</a>
 <a href="#about">About</a>
 <a href="#features">Features</a>
 <a href="#join">Join</a>
 <a href="#stats">Stats</a>
 <a href="#arcade">Arcade</a>
 <a href="#leaderboard">Leaderboard</a>
+<a href="#staff">Staff</a>
 <a href="#discord">Discord</a>
+<a href="#rules">Rules</a>
+<a href="#vote">Vote</a>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="home">
 <h1>GermanKeiv</h1>
 <p>Minecraft Network • Java + Bedrock</p>
 <button onclick="copyIP()">Copy IP</button>
@@ -238,8 +268,8 @@ margin-top:60px;
 
 <!-- ABOUT -->
 <section id="about">
-<h2>About</h2>
-<p>GermanKeiv is a Minecraft community server focused on survival, building, events, and a growing player base.</p>
+<h2>About Server</h2>
+<p>GermanKeiv is a growing Minecraft community focused on survival, events, PvP, and creativity.</p>
 </section>
 
 <!-- FEATURES -->
@@ -248,19 +278,18 @@ margin-top:60px;
 
 <div class="grid">
 <div class="card">🌍 Crossplay</div>
-<div class="card">⚔ PvP & Survival</div>
+<div class="card">⚔ PvP System</div>
 <div class="card">🏆 Events</div>
-<div class="card">🛒 Economy</div>
-<div class="card">🧑 Friendly Staff</div>
-<div class="card">⚡ Custom Systems</div>
+<div class="card">💰 Economy</div>
+<div class="card">🧑 Staff Team</div>
+<div class="card">⚡ Custom Plugins</div>
 </div>
 </section>
 
 <!-- JOIN -->
 <section id="join">
-<h2>Join Server</h2>
-<h1>play.germankeiv.com</h1>
-<p class="small">Click copy button above</p>
+<h2>Join</h2>
+<h1 style="color:#ff00cc">play.germankeiv.com</h1>
 </section>
 
 <!-- STATS -->
@@ -268,27 +297,26 @@ margin-top:60px;
 <h2>Live Stats</h2>
 
 <div class="stats">
-<div class="stat">Status: <span id="status">Loading...</span></div>
-<div class="stat">Players: <span id="players">0</span></div>
+<div>Status: <span id="status">Loading...</span></div>
+<div>Players: <span id="players">0</span></div>
 </div>
 </section>
 
 <!-- ARCADE -->
 <section id="arcade">
-<h2>🎮 Arcade Hub</h2>
+<h2>🎮 Arcade Zone</h2>
 
-<div class="arcade-box">
+<div class="arcade">
 
 <h3>Block Clicker ⛏</h3>
-<button onclick="mine()">Mine Block</button>
-
+<button onclick="mine()">Mine</button>
 <h2>Score: <span id="score">0</span></h2>
 
 <br>
 
 <h3>Lucky Spin 🎰</h3>
 <button onclick="spin()">Spin</button>
-<h3 id="spinResult">---</h3>
+<h3 id="spin">---</h3>
 
 </div>
 </section>
@@ -297,135 +325,124 @@ margin-top:60px;
 <section id="leaderboard">
 <h2>🏆 Leaderboard</h2>
 
-<input id="name" placeholder="Enter name" style="padding:10px;border-radius:8px;">
-<button onclick="saveScore()">Save Score</button>
+<input id="name" placeholder="Name" style="padding:10px;border-radius:8px;">
+<button onclick="save()">Save</button>
 
-<div id="leaderboardList"></div>
+<div id="lb"></div>
+</section>
+
+<!-- STAFF -->
+<section id="staff">
+<h2>Staff Team</h2>
+
+<div class="staff">
+
+<div class="staff-card">
+<img src="https://mc-heads.net/avatar/Steve">
+<h3 class="owner">Owner: Y elijah ten</h3>
+</div>
+
+<div class="staff-card">
+<img src="https://mc-heads.net/avatar/Notch">
+<h3 class="admin">Admin</h3>
+</div>
+
+<div class="staff-card">
+<img src="https://mc-heads.net/avatar/Alex">
+<h3 class="mod">Moderator</h3>
+</div>
+
+</div>
 </section>
 
 <!-- DISCORD -->
 <section id="discord">
 <h2>Discord</h2>
 
-<iframe
-src="https://discord.com/widget?id=YOUR_SERVER_ID&theme=dark"
-width="350" height="500">
-</iframe>
+<iframe src="https://discord.com/widget?id=YOUR_ID&theme=dark"
+width="350" height="500"></iframe>
 
 </section>
 
+<!-- FOOTER -->
 <footer>
-© 2026 GermanKeiv Network
+© 2026 GermanKeiv Network V7
 </footer>
 
 <script>
 
-/* =========================
-   COPY IP
-========================= */
+/* COPY IP */
 function copyIP(){
 navigator.clipboard.writeText("play.germankeiv.com");
-alert("Copied!");
 }
 
-/* =========================
-   SERVER STATUS (SAFE FALLBACK)
-========================= */
+/* SERVER STATUS */
 fetch("https://api.mcsrvstat.us/2/play.germankeiv.com")
 .then(r=>r.json())
 .then(d=>{
-if(d.online){
-document.getElementById("status").innerText="Online";
-document.getElementById("players").innerText=d.players.online;
-}else{
-document.getElementById("status").innerText="Offline";
-}
+document.getElementById("status").innerText=d.online?"Online":"Offline";
+document.getElementById("players").innerText=d.online?d.players.online:0;
 });
 
-/* =========================
-   ARCADE GAME
-========================= */
-let score = 0;
-
+/* ARCADE */
+let score=0;
 function mine(){
 score++;
-document.getElementById("score").innerText = score;
+document.getElementById("score").innerText=score;
 }
 
 function spin(){
-let items=["Diamond","Nothing","Gold","Lucky Win","Stone"];
-let result = items[Math.floor(Math.random()*items.length)];
-document.getElementById("spinResult").innerText=result;
+let items=["Diamond","Nothing","Gold","Lucky Win","XP Boost"];
+document.getElementById("spin").innerText=
+items[Math.floor(Math.random()*items.length)];
 }
 
-/* =========================
-   LEADERBOARD (LOCAL)
-========================= */
-function saveScore(){
-let name = document.getElementById("name").value || "Player";
-let data = JSON.parse(localStorage.getItem("lb")||"[]");
+/* LEADERBOARD */
+function save(){
+let name=document.getElementById("name").value||"Player";
+let data=JSON.parse(localStorage.getItem("lb")||"[]");
 
 data.push({name,score});
-data.sort((a,b)=>b.score-a.score);
-data = data.slice(0,5);
+data=data.sort((a,b)=>b.score-a.score).slice(0,5);
 
 localStorage.setItem("lb",JSON.stringify(data));
-renderLB();
+render();
 }
 
-function renderLB(){
-let data = JSON.parse(localStorage.getItem("lb")||"[]");
-let box = document.getElementById("leaderboardList");
+function render(){
+let data=JSON.parse(localStorage.getItem("lb")||"[]");
+let box=document.getElementById("lb");
 box.innerHTML="";
-
 data.forEach((p,i)=>{
-box.innerHTML += `<div>#${i+1} ${p.name} - ${p.score}</div>`;
+box.innerHTML+=`<div>#${i+1} ${p.name} - ${p.score}</div>`;
 });
 }
+render();
 
-renderLB();
+/* PARTICLES */
+const c=document.getElementById("p");
+const x=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
 
-/* =========================
-   PARTICLES SYSTEM
-========================= */
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
+let p=[];
+for(let i=0;i<100;i++){
+p.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:Math.random()-0.5,vy:Math.random()-0.5});
+}
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+function anim(){
+x.clearRect(0,0,c.width,c.height);
+p.forEach(o=>{
+o.x+=o.vx;o.y+=o.vy;
+if(o.x<0||o.x>c.width)o.vx*=-1;
+if(o.y<0||o.y>c.height)o.vy*=-1;
 
-let particles = [];
-
-for(let i=0;i<80;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3,
-dx:Math.random()-0.5,
-dy:Math.random()-0.5
+x.fillStyle="#00ffd5";
+x.fillRect(o.x,o.y,2,2);
 });
+requestAnimationFrame(anim);
 }
-
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-for(let p of particles){
-p.x+=p.dx;
-p.y+=p.dy;
-
-if(p.x<0||p.x>canvas.width)p.dx*=-1;
-if(p.y<0||p.y>canvas.height)p.dy*=-1;
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="#00ffd5";
-ctx.fill();
-}
-
-requestAnimationFrame(animate);
-}
-
-animate();
+anim();
 
 </script>
 
