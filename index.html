@@ -1,375 +1,979 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GermanKeiv Network V11</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>GermanKeiv Minecraft Server</title>
+  <style>
+    /* ========== RESET ========== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+      background: #050510;
+    }
+    a { color: inherit; text-decoration: none; }
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    /* ========== ANIMATED BACKGROUND ========== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 20%, rgba(0,255,174,0.18), transparent 45%),
+                  radial-gradient(circle at 80% 30%, rgba(0,212,255,0.18), transparent 45%),
+                  radial-gradient(circle at 50% 80%, rgba(160,80,255,0.18), transparent 45%),
+                  linear-gradient(120deg, #090979, #00d4ff);
+      filter: saturate(1.2);
+    }
 
-<style>
+    .stars, .stars2 {
+      position: absolute;
+      inset: -50%;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.8) 50%, transparent 52%),
+        radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.6) 50%, transparent 52%),
+        radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.5) 50%, transparent 52%),
+        radial-gradient(2px 2px at 85% 65%, rgba(255,255,255,0.7) 50%, transparent 52%),
+        radial-gradient(1px 1px at 15% 70%, rgba(255,255,255,0.4) 50%, transparent 52%),
+        radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.35) 50%, transparent 52%);
+      opacity: 0.6;
+      animation: drift 40s linear infinite;
+      transform: translate3d(0,0,0);
+    }
+    .stars2 {
+      opacity: 0.35;
+      animation-duration: 70s;
+      filter: blur(0.3px);
+    }
+    @keyframes drift {
+      0% { transform: translate(-2%, -2%); }
+      50% { transform: translate(2%, 2%); }
+      100% { transform: translate(-2%, -2%); }
+    }
 
-/* ================================
-   GLOBAL RESET
-================================ */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Orbitron;
-}
+    .glow-orbs {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .orb {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.35;
+      animation: floaty 10s ease-in-out infinite alternate;
+    }
+    .orb.one { left: -120px; top: 10vh; background: rgba(0,255,174,0.65); animation-duration: 13s; }
+    .orb.two { right: -160px; top: 25vh; background: rgba(0,212,255,0.65); animation-duration: 17s; }
+    .orb.three { left: 20vw; bottom: -200px; background: rgba(160,80,255,0.65); animation-duration: 15s; }
+    @keyframes floaty {
+      0% { transform: translateY(0) translateX(0) scale(1); }
+      100% { transform: translateY(-35px) translateX(20px) scale(1.05); }
+    }
 
-body{
-color:white;
-overflow-x:hidden;
-}
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      background: rgba(0,0,0,0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+    }
+    .logo {
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #00ffae;
+      text-shadow: 0 0 18px rgba(0,255,174,0.35);
+      user-select: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .nav-links a {
+      font-weight: 700;
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      padding: 7px 10px;
+      border-radius: 10px;
+      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+    }
+    .nav-links a:hover {
+      background: rgba(0,255,174,0.14);
+      color: #00ffae;
+      transform: translateY(-1px);
+    }
 
-/* ================================
-   ADVANCED MINECRAFT-STYLE WORLD BG
-================================ */
-body{
-background:
-radial-gradient(circle at 15% 20%, #00ffd5 0%, transparent 40%),
-radial-gradient(circle at 85% 25%, #ff00cc 0%, transparent 45%),
-radial-gradient(circle at 50% 80%, #7a00ff 0%, transparent 50%),
-linear-gradient(120deg,#000,#0a001a,#000);
-background-size:400% 400%;
-animation:world 12s infinite alternate;
-}
+    /* ========== LAYOUT ========== */
+    main { padding-top: 62px; }
+    section {
+      padding: 80px 16px;
+      text-align: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    section h2 {
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+    .sub {
+      max-width: 820px;
+      margin: 0 auto 24px;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
 
-@keyframes world{
-0%{background-position:0% 50%}
-100%{background-position:100% 50%}
-}
+    /* ========== HERO ========== */
+    .hero {
+      min-height: calc(100vh - 62px);
+      display: grid;
+      place-items: center;
+      padding: 70px 16px 90px;
+    }
+    .hero-card {
+      width: min(980px, 100%);
+      border-radius: 18px;
+      padding: 28px 18px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, rgba(0,255,174,0.15), rgba(0,212,255,0.15), rgba(160,80,255,0.12));
+      filter: blur(25px);
+      z-index: -1;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 1.05;
+      margin-bottom: 12px;
+      text-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    }
+    .hero p { margin: 0 auto 18px; max-width: 760px; opacity: 0.95; }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255,255,255,0.14);
+      transition: transform 0.15s ease, filter 0.15s ease, background 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn.primary { background: #00ffae; color: #061017; }
+    .btn.secondary { background: rgba(255,255,255,0.08); color: #fff; }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
 
-/* GRID LAYER */
-body::before{
-content:"";
-position:fixed;
-width:100%;
-height:100%;
-background-image:
-linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
-background-size:60px 60px;
-z-index:-1;
-}
+    /* ========== CARDS / GRIDS ========== */
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 16px;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.25);
+      text-align: left;
+    }
+    .card h3 { margin-bottom: 6px; color: #00ffae; }
+    .card p { opacity: 0.95; line-height: 1.45; }
+    .card button, .card .mini-btn {
+      margin-top: 12px;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .card button:hover, .card .mini-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(0,255,174,0.15);
+    }
 
-/* ================================
-   LOGIN SCREEN
-================================ */
-#login{
-position:fixed;
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#000,#200030,#000);
-z-index:9999;
-}
+    /* ========== ABOUT GALLERY ========== */
+    .animated-gallery {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .animated-gallery img {
+      width: 240px;
+      max-width: 90vw;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+      animation: pulse 4.5s infinite alternate;
+    }
+    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
 
-input{
-padding:12px;
-border-radius:8px;
-border:none;
-}
+    /* ========== STAFF ========== */
+    .staff {
+      display: flex;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    .staff-member {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 18px;
+      width: min(380px, 100%);
+      box-shadow: 0 12px 34px rgba(0,0,0,0.25);
+    }
+    .staff-member img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #00ffae;
+      box-shadow: 0 0 22px rgba(0,255,174,0.25);
+      margin-bottom: 8px;
+    }
+    .staff-member h3 { color: #00ffae; margin-bottom: 4px; }
+    .staff-member p { opacity: 0.95; }
 
-/* ================================
-   MUSIC SCREEN
-================================ */
-#music{
-position:fixed;
-width:100%;
-height:100%;
-display:none;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#001,#300020);
-z-index:9998;
-}
+    /* ========== GAME ========== */
+    #gameArea {
+      margin: 16px auto 0;
+      width: min(520px, 100%);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.25);
+    }
+    #clickTarget {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: #00ffae;
+      color: #061017;
+      font-weight: 900;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+      transition: transform 0.05s ease;
+    }
+    .tiny {
+      opacity: 0.9;
+      font-size: 13px;
+      margin-top: 8px;
+      line-height: 1.35;
+    }
 
-/* ================================
-   NAVIGATION (12 ITEMS)
-================================ */
-nav{
-position:fixed;
-top:0;
-width:100%;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:12px;
-padding:10px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-z-index:999;
-}
+    /* ========== LOGIN ========== */
+    form {
+      width: min(420px, 100%);
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+      padding: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.25);
+      text-align: left;
+    }
+    label { font-weight: 800; font-size: 13px; opacity: 0.95; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      outline: none;
+    }
+    input::placeholder { color: rgba(255,255,255,0.65); }
+    .note {
+      opacity: 0.92;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 10px;
+    }
 
-nav a{
-color:#00ffd5;
-text-decoration:none;
-font-size:12px;
-transition:.2s;
-}
+    /* ========== DISCORD ========== */
+    .discord-wrap {
+      display: grid;
+      place-items: center;
+      gap: 10px;
+    }
+    iframe {
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+    }
 
-nav a:hover{
-color:#ff00cc;
-transform:scale(1.1);
-}
+    /* ========== GALLERY ========== */
+    .gallery-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .gallery-container img {
+      width: 280px;
+      max-width: 92vw;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: transform 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+    }
+    .gallery-container img:hover { transform: scale(1.04); filter: brightness(1.05); }
 
-/* ================================
-   SECTIONS
-================================ */
-section{
-padding:90px 10%;
-text-align:center;
-}
+    /* ========== FOOTER ========== */
+    footer {
+      padding: 26px 16px;
+      text-align: center;
+      background: rgba(0,0,0,0.5);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      opacity: 0.95;
+    }
 
-h2{
-color:#00ffd5;
-font-size:38px;
-margin-bottom:20px;
-}
+    /* ========== MUSIC MODAL + CONTROLS ========== */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(6px);
+    }
+    .modal.show { display: flex; }
+    .modal-content {
+      width: min(520px, 100%);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(10,10,20,0.90);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+      text-align: center;
+    }
+    .modal-content h2 { margin-bottom: 8px; }
+    .modal-content p { opacity: 0.92; line-height: 1.45; margin-bottom: 14px; }
 
-/* ================================
-   CARDS SYSTEM
-================================ */
-.card{
-background:rgba(0,0,0,0.55);
-padding:18px;
-border-radius:12px;
-margin:10px;
-display:inline-block;
-transition:.3s;
-}
+    .audio-controls {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 1500;
+      width: min(360px, calc(100vw - 24px));
+      background: rgba(0,0,0,0.62);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 16px 46px rgba(0,0,0,0.35);
+    }
+    .audio-top {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .track {
+      text-align: left;
+      min-width: 0;
+    }
+    .track .label {
+      font-size: 11px;
+      opacity: 0.8;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .track .name {
+      font-weight: 900;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 190px;
+      color: #00ffae;
+    }
+    .controls-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .controls-row button {
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+      flex: 1;
+      min-width: 86px;
+    }
+    .controls-row button:hover {
+      transform: translateY(-1px);
+      background: rgba(0,255,174,0.14);
+    }
+    .controls-row input[type="range"] {
+      width: 100%;
+      accent-color: #00ffae;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
 
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 0 20px #00ffd5;
-}
-
-/* ================================
-   BUTTONS
-================================ */
-button{
-padding:10px 18px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#00ffd5,#ff00cc);
-cursor:pointer;
-font-weight:bold;
-margin-top:10px;
-}
-
-/* ================================
-   RIGHT SIDE AUDIO PANEL
-================================ */
-#audioPanel{
-position:fixed;
-right:10px;
-bottom:10px;
-background:rgba(0,0,0,0.6);
-padding:10px;
-border-radius:10px;
-z-index:9999;
-}
-
-/* ================================
-   STAFF
-================================ */
-.owner{color:#ffd700}
-.admin{color:#00ffd5}
-.mod{color:#ff00cc}
-
-/* ================================
-   LEADERBOARD
-================================ */
-#lb div{
-margin:5px;
-padding:10px;
-background:rgba(0,0,0,0.4);
-border-radius:8px;
-}
-
-</style>
+    /* ========== MOBILE NAV SPACING ========== */
+    @media (max-width: 720px) {
+      nav { align-items: flex-start; }
+      .nav-links a { font-size: 13px; padding: 6px 8px; }
+      .track .name { max-width: 150px; }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Background layers -->
+  <div class="bg">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="glow-orbs">
+      <div class="orb one"></div>
+      <div class="orb two"></div>
+      <div class="orb three"></div>
+    </div>
+  </div>
 
-<!-- LOGIN -->
-<div id="login">
-<h1>🔐 Login</h1>
-<input id="user" placeholder="Username">
-<button onclick="login()">Enter</button>
-</div>
+  <!-- Music Prompt Modal -->
+  <div id="musicPrompt" class="modal">
+    <div class="modal-content">
+      <h2>Enable Background Music?</h2>
+      <p>
+        Your browser blocks autoplay; this button makes it work. You can mute, change volume,
+        skip tracks, or pause anytime.
+      </p>
+      <div class="btn-row">
+        <button id="yesMusic" class="btn primary" type="button">Enable Music</button>
+        <button id="noMusic" class="btn secondary" type="button">No Thanks</button>
+      </div>
+      <p class="tiny" style="margin-top:12px;">
+        Tip: If music does not start, click "Enable Music" again (some browsers are picky).
+      </p>
+    </div>
+  </div>
 
-<!-- MUSIC SCREEN -->
-<div id="music">
-<h1>🎵 Enable Music?</h1>
-<button onclick="music(true)">YES</button>
-<button onclick="music(false)">NO</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">GermanKeiv</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#staff">Staff</a></li>
+      <li><a href="#store">Store</a></li>
+      <li><a href="#vote">Vote</a></li>
+      <li><a href="#game">Mini Game</a></li>
+      <li><a href="#login">Login</a></li>
+      <li><a href="#discord">Discord</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<br><br>
-Volume
-<input type="range" min="0" max="1" step="0.01" oninput="setVol(this.value)">
-<button onclick="mute()">Mute</button>
-</div>
+  <main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+      <div class="hero-card">
+        <h1>Welcome to GermanKeiv Minecraft Server</h1>
+        <p class="sub">
+          Join our community of builders, adventurers, and grinders. Survival vibes, events,
+          cool staff, and a Discord that is always active.
+        </p>
+        <div class="btn-row">
+          <a class="btn primary" href="#discord">Join Discord</a>
+          <a class="btn secondary" href="#about">Learn More</a>
+          <button class="btn secondary" id="openMusic" type="button">Music Settings</button>
+        </div>
+        <p class="tiny">
+          Background music is optional and controllable (mute, volume, pause, next track).
+        </p>
+      </div>
+    </section>
 
-<!-- AUDIO PANEL -->
-<div id="audioPanel">
-🎧 Audio Panel
-<br>
-<input type="range" min="0" max="1" step="0.01" oninput="setVol(this.value)">
-<br>
-<button onclick="mute()">Mute</button>
-</div>
+    <!-- About -->
+    <section id="about">
+      <h2>About Our Server</h2>
+      <p class="sub">
+        GermanKeiv is a friendly Minecraft community offering survival, creative builds,
+        and PvP vibes. Our Discord connects players for events, giveaways, and updates.
+      </p>
 
-<!-- NAV -->
-<nav>
-<a href="#home">Home</a>
-<a href="#store">Store</a>
-<a href="#vote">Vote</a>
-<a href="#arcade">Arcade</a>
-<a href="#pvp">PvP</a>
-<a href="#economy">Economy</a>
-<a href="#leaderboard">Leaderboard</a>
-<a href="#staff">Staff</a>
-<a href="#discord">Discord</a>
-<a href="#rules">Rules</a>
-<a href="#vote2">Vote2</a>
-<a href="#profile">Profile</a>
-</nav>
+      <div class="animated-gallery">
+        <img src="https://static.planetminecraft.com/files/image/minecraft/project/2020/101/12400069_xl.webp" alt="Spawn" />
+        <img src="https://static.planetminecraft.com/files/image/minecraft/project/2020/889/10896186_xl.webp" alt="Adventure" />
+        <img src="https://static.planetminecraft.com/files/image/minecraft/project/2020/709/12311695_xl.webp" alt="Community" />
+      </div>
+    </section>
 
-<!-- HOME -->
-<section id="home">
-<h1>GermanKeiv Network</h1>
-<p>Welcome <span id="nameOut"></span></p>
-</section>
+    <!-- Staff -->
+    <section id="staff">
+      <h2>Meet the Team</h2>
+      <p class="sub">The staff are here to keep things fun, fair, and active.</p>
 
-<!-- STORE -->
-<section id="store">
-<h2>Store 🛒</h2>
-<div class="card">VIP Rank<button onclick="buy(100)">Buy</button></div>
-<div class="card">Sword Skin<button onclick="buy(50)">Buy</button></div>
-<div class="card">Pet Wolf<button onclick="buy(150)">Buy</button></div>
-</section>
+      <div class="staff">
+        <div class="staff-member">
+          <img src="https://minotar.net/avatar/Elijah_Ten/110.png" alt="Elijah Ten" />
+          <h3>Y Elijah Ten</h3>
+          <p>Owner & Developer</p>
+          <p class="tiny">Leads the server, builds features, and keeps everything running.</p>
+        </div>
+      </div>
+    </section>
 
-<!-- VOTE -->
-<section id="vote">
-<h2>Vote 🗳</h2>
-<button onclick="vote()">Vote for Coins</button>
-</section>
+    <!-- Store -->
+    <section id="store">
+      <h2>Server Store</h2>
+      <p class="sub">Support the community by grabbing ranks and perks (placeholders for now).</p>
 
-<!-- ARCADE -->
-<section id="arcade">
-<h2>Arcade 🎮</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>VIP Rank</h3>
+          <p>Exclusive prefix, fly mode, and colored chat.</p>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+        </div>
+        <div class="card">
+          <h3>Elite Rank</h3>
+          <p>All VIP perks plus special Discord access.</p>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+        </div>
+        <div class="card">
+          <h3>Ultra Rank</h3>
+          <p>Top perks, special particles, and flex status.</p>
+          <button type="button" onclick="alert('Store is coming soon. Add your real store link here!')">Buy (Coming Soon)</button>
+        </div>
+      </div>
+      <p class="tiny">
+        When you get a real store (Tebex, etc.), replace the buttons with links.
+      </p>
+    </section>
 
-<div class="card">
-<button onclick="mine()">Mine</button>
-<h3>Score: <span id="score">0</span></h3>
-</div>
+    <!-- Vote -->
+    <section id="vote">
+      <h2>Vote for Rewards</h2>
+      <p class="sub">
+        Vote daily for rewards like diamonds and coins. Add your real voting links below.
+      </p>
 
-<div class="card">
-<button onclick="pvp()">PvP Duel</button>
-<h3 id="pvp">---</h3>
-</div>
+      <div class="grid">
+        <div class="card">
+          <h3>MinecraftServers.org</h3>
+          <p>Vote and get in-game rewards.</p>
+          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+        </div>
+        <div class="card">
+          <h3>TopG.org</h3>
+          <p>Boost server visibility and claim rewards.</p>
+          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+        </div>
+        <div class="card">
+          <h3>Planet Minecraft</h3>
+          <p>Show love and grow the community.</p>
+          <button type="button" onclick="alert('Replace this with your real vote URL.')">Vote Now</button>
+        </div>
+      </div>
+    </section>
 
-<div class="card">
-<button onclick="spin()">Spin Wheel</button>
-<h3 id="spin">---</h3>
-</div>
+    <!-- Game -->
+    <section id="game">
+      <h2>Mini Game (Clicker)</h2>
+      <p class="sub">Click the block to score points. Just a fun page addon.</p>
 
-</section>
+      <div id="gameArea">
+        <div><strong>Score:</strong> <span id="score">0</span></div>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn primary" id="startGame" type="button">Start Game</button>
+          <button class="btn secondary" id="resetGame" type="button">Reset</button>
+        </div>
+        <div id="clickZone"></div>
+        <p class="tiny">
+          Tip: This is client-only, it resets on refresh. A real leaderboard would need a backend.
+        </p>
+      </div>
+    </section>
 
-<!-- LEADERBOARD -->
-<section id="leaderboard">
-<h2>Leaderboard 🏆</h2>
-<button onclick="save()">Save Score</button>
-<div id="lb"></div>
-</section>
+    <!-- Login -->
+    <section id="login">
+      <h2>Login</h2>
+      <p class="sub">This is a front-end demo login (no real accounts, no database).</p>
 
-<!-- STAFF -->
-<section id="staff">
-<h2>Staff</h2>
-<div class="card owner">Owner: Y elijah ten</div>
-<div class="card admin">Admin Team</div>
-<div class="card mod">Moderators</div>
-</section>
+      <form id="loginForm">
+        <div>
+          <label for="username">Username</label>
+          <input id="username" name="username" placeholder="Username" required />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" name="password" placeholder="Password" required />
+        </div>
+        <button class="btn primary" type="submit">Login</button>
+        <p class="note">
+          This is only a visual form. If you want real login/accounts, you need a backend
+          (GitHub Pages is static hosting).
+        </p>
+      </form>
+    </section>
 
-<!-- DISCORD -->
-<section id="discord">
-<h2>Discord</h2>
-<iframe src="https://discord.com/widget?id=YOUR_ID&theme=dark" width="350" height="500"></iframe>
-</section>
+    <!-- Discord -->
+    <section id="discord">
+      <h2>Join Our Discord</h2>
+      <p class="sub">
+        Replace <strong>YOUR_DISCORD_ID</strong> in the iframe URL with your real server ID.
+        (Discord widget must be enabled in Server Settings.)
+      </p>
 
-<script>
+      <div class="discord-wrap">
+        <iframe
+          id="discordFrame"
+          src="https://discord.com/widget?id=YOUR_DISCORD_ID&theme=dark"
+          width="360"
+          height="520"
+          allowtransparency="true"
+          frameborder="0"
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
 
-/* ================= LOGIN ================= */
-let user="";
-let coins=0;
-let score=0;
+        <button class="btn secondary" type="button" id="copyDiscordTip">How do I fix the Discord widget?</button>
+        <p class="tiny" id="discordTip" style="display:none; max-width: 820px;">
+          Go to Discord server settings, Widget, enable "Server Widget", then copy your Server ID.
+          Update the iframe URL: <code>widget?id=YOUR_DISCORD_ID</code>.
+        </p>
+      </div>
+    </section>
 
-function login(){
-user=document.getElementById("user").value||"Player";
-document.getElementById("login").style.display="none";
-document.getElementById("music").style.display="flex";
-document.getElementById("nameOut").innerText=user;
-}
+    <!-- Gallery -->
+    <section id="gallery">
+      <h2>Gallery</h2>
+      <p class="sub">Screenshots, builds, and server vibes.</p>
 
-/* ================= MUSIC ================= */
-let audio=new Audio();
-let muted=false;
+      <div class="gallery-container">
+        <img src="https://wallpapercave.com/wp/wp7243772.jpg" alt="Minecraft art" />
+        <img src="https://wallpapercave.com/wp/wp5489910.jpg" alt="Minecraft build" />
+        <img src="https://wallpapercave.com/wp/wp9187413.jpg" alt="Adventure" />
+      </div>
+    </section>
 
-const songs=[
-"https://cdn.pixabay.com/audio/ambient1.mp3",
-"https://cdn.pixabay.com/audio/ambient2.mp3",
-"https://cdn.pixabay.com/audio/ambient3.mp3"
-];
+    <!-- Contact -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <p class="sub">Replace this with your real contact method.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Email</h3>
+          <p>support@germankeiv.com</p>
+          <button type="button" onclick="navigator.clipboard?.writeText('support@germankeiv.com'); alert('Copied email!');">Copy Email</button>
+        </div>
+        <div class="card">
+          <h3>Discord</h3>
+          <p>Use the Discord section above to join.</p>
+          <button type="button" onclick="location.href='#discord'">Go to Discord</button>
+        </div>
+        <div class="card">
+          <h3>Status</h3>
+          <p>Server status can be added later (needs an API).</p>
+          <button type="button" onclick="alert('To show real server status, you need an API or a stats service.')">Learn More</button>
+        </div>
+      </div>
+    </section>
 
-function music(on){
-document.getElementById("music").style.display="none";
-if(!on)return;
+    <footer>
+      <p>© 2026 GermanKeiv Community | Made by Y Elijah Ten</p>
+    </footer>
+  </main>
 
-audio.src=songs[Math.floor(Math.random()*songs.length)];
-audio.loop=true;
-audio.play();
-}
+  <!-- Audio element -->
+  <audio id="bgMusic" preload="auto"></audio>
 
-function setVol(v){audio.volume=v;}
-function mute(){muted=!muted;audio.muted=muted;}
+  <!-- Audio Controls -->
+  <div class="audio-controls" aria-label="Audio controls">
+    <div class="audio-top">
+      <div class="track">
+        <div class="label">Background Music</div>
+        <div class="name" id="trackName">Not playing</div>
+      </div>
+      <button id="toggleMusic" type="button" style="min-width:110px;">Play</button>
+    </div>
 
-/* ================= ARCADE ================= */
-function mine(){score++;coins++;}
-function spin(){document.getElementById("spin").innerText=["Diamond","Gold","Nothing"][Math.floor(Math.random()*3)];}
-function pvp(){document.getElementById("pvp").innerText=Math.random()>0.5?"Win":"Lose";}
+    <div class="controls-row" style="margin-bottom: 10px;">
+      <button id="prevTrack" type="button">Prev</button>
+      <button id="nextTrack" type="button">Next</button>
+      <button id="muteBtn" type="button">Mute</button>
+    </div>
 
-/* ================= STORE ================= */
-function buy(p){
-if(coins>=p){coins-=p;alert("Bought!");}
-else alert("Not enough coins");
-}
+    <div class="controls-row">
+      <div style="width:100%; text-align:left; font-size:11px; opacity:0.85; margin-bottom:6px;">
+        Volume
+      </div>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
+    </div>
 
-/* ================= VOTE ================= */
-function vote(){coins+=50;alert("+50 coins");}
+    <p class="tiny" style="margin-top:10px;">
+      Music starts only after you click Enable Music (browser rule). If you want your own songs,
+      replace the MP3 links in the playlist in the JS.
+    </p>
+  </div>
 
-/* ================= LEADERBOARD ================= */
-function save(){
-let data=JSON.parse(localStorage.getItem("lb")||"[]");
-data.push({user,score});
-data=data.sort((a,b)=>b.score-a.score).slice(0,5);
-localStorage.setItem("lb",JSON.stringify(data));
+  <script>
+    /* =========================
+       MUSIC PLAYER (FIXED)
+       - Uses a playlist (not multiple <source> tags)
+       - Random start, next/prev, pause/play, mute, volume
+       - Remembers volume + mute in localStorage
+       - Respects autoplay restrictions via modal
+    ========================== */
 
-let box=document.getElementById("lb");
-box.innerHTML="";
-data.forEach((p,i)=>{
-box.innerHTML+=`<div>#${i+1} ${p.user} - ${p.score}</div>`;
-});
-}
+    const musicPrompt = document.getElementById('musicPrompt');
+    const yesMusic = document.getElementById('yesMusic');
+    const noMusic = document.getElementById('noMusic');
+    const openMusic = document.getElementById('openMusic');
 
-</script>
+    const audio = document.getElementById('bgMusic');
+    const trackNameEl = document.getElementById('trackName');
 
+    const toggleMusicBtn = document.getElementById('toggleMusic');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const prevTrackBtn = document.getElementById('prevTrack');
+    const nextTrackBtn = document.getElementById('nextTrack');
+
+    // Playlist: add/remove tracks here
+    const playlist = [
+      { name: "Minecraft Style Track 1", url: "https://files.catbox.moe/minecraft1.mp3" },
+      { name: "Minecraft Style Track 2", url: "https://files.catbox.moe/minecraft2.mp3" },
+      { name: "Minecraft Style Track 3", url: "https://files.catbox.moe/minecraft3.mp3" }
+    ];
+
+    let currentIndex = Math.floor(Math.random() * playlist.length);
+    let userEnabledMusic = false;
+
+    function loadTrack(index) {
+      currentIndex = (index + playlist.length) % playlist.length;
+      const t = playlist[currentIndex];
+      audio.src = t.url;
+      trackNameEl.textContent = t.name;
+    }
+
+    function setButtonStates() {
+      toggleMusicBtn.textContent = audio.paused ? "Play" : "Pause";
+      muteBtn.textContent = audio.muted ? "Unmute" : "Mute";
+    }
+
+    async function playMusic() {
+      try {
+        await audio.play();
+        setButtonStates();
+      } catch (e) {
+        // If play fails, show modal again so user can click
+        musicPrompt.classList.add('show');
+      }
+    }
+
+    function pauseMusic() {
+      audio.pause();
+      setButtonStates();
+    }
+
+    function nextTrack(autoPlay = true) {
+      loadTrack(currentIndex + 1);
+      if (autoPlay && userEnabledMusic) playMusic();
+    }
+
+    function prevTrack(autoPlay = true) {
+      loadTrack(currentIndex - 1);
+      if (autoPlay && userEnabledMusic) playMusic();
+    }
+
+    // When a track ends, go to next
+    audio.addEventListener('ended', () => nextTrack(true));
+
+    // Persist volume/mute
+    function loadAudioPrefs() {
+      const savedVol = localStorage.getItem("gk_volume");
+      const savedMuted = localStorage.getItem("gk_muted");
+      if (savedVol !== null) audio.volume = Number(savedVol);
+      if (savedMuted !== null) audio.muted = savedMuted === "true";
+      volumeSlider.value = audio.volume;
+      setButtonStates();
+    }
+
+    function saveAudioPrefs() {
+      localStorage.setItem("gk_volume", String(audio.volume));
+      localStorage.setItem("gk_muted", String(audio.muted));
+    }
+
+    volumeSlider.addEventListener('input', (e) => {
+      audio.volume = Number(e.target.value);
+      saveAudioPrefs();
+    });
+
+    muteBtn.addEventListener('click', () => {
+      audio.muted = !audio.muted;
+      saveAudioPrefs();
+      setButtonStates();
+    });
+
+    toggleMusicBtn.addEventListener('click', async () => {
+      if (!userEnabledMusic) {
+        // If they never enabled music, open the prompt
+        musicPrompt.classList.add('show');
+        return;
+      }
+      if (audio.paused) await playMusic();
+      else pauseMusic();
+    });
+
+    nextTrackBtn.addEventListener('click', () => nextTrack(true));
+    prevTrackBtn.addEventListener('click', () => prevTrack(true));
+
+    openMusic.addEventListener('click', () => {
+      musicPrompt.classList.add('show');
+    });
+
+    yesMusic.addEventListener('click', async () => {
+      userEnabledMusic = true;
+      musicPrompt.classList.remove('show');
+
+      // Ensure a track is loaded, then play
+      if (!audio.src) loadTrack(currentIndex);
+      await playMusic();
+    });
+
+    noMusic.addEventListener('click', () => {
+      userEnabledMusic = false;
+      musicPrompt.classList.remove('show');
+      pauseMusic();
+    });
+
+    // Initialize
+    loadTrack(currentIndex);
+    loadAudioPrefs();
+
+    // Show prompt on first load (optional behavior)
+    // If you do NOT want the prompt to appear automatically, comment this out:
+    setTimeout(() => musicPrompt.classList.add('show'), 600);
+
+    /* =========================
+       MINI GAME
+    ========================== */
+    const startGameBtn = document.getElementById('startGame');
+    const resetGameBtn = document.getElementById('resetGame');
+    const scoreEl = document.getElementById('score');
+    const clickZone = document.getElementById('clickZone');
+
+    let score = 0;
+    let gameStarted = false;
+
+    function renderTarget() {
+      clickZone.innerHTML = "";
+      const t = document.createElement('div');
+      t.id = "clickTarget";
+      t.textContent = "Click Me!";
+      t.addEventListener('click', () => {
+        score++;
+        scoreEl.textContent = score;
+        const scale = Math.min(1.6, 1 + score * 0.03);
+        t.style.transform = `scale(${scale})`;
+        setTimeout(() => t.style.transform = "scale(1)", 60);
+      });
+      clickZone.appendChild(t);
+
+      const hint = document.createElement('div');
+      hint.className = "tiny";
+      hint.textContent = "Each click gives +1 score. Try to beat your own record.";
+      clickZone.appendChild(hint);
+    }
+
+    startGameBtn.addEventListener('click', () => {
+      if (gameStarted) return;
+      gameStarted = true;
+      renderTarget();
+    });
+
+    resetGameBtn.addEventListener('click', () => {
+      score = 0;
+      scoreEl.textContent = score;
+      gameStarted = false;
+      clickZone.innerHTML = "";
+    });
+
+    /* =========================
+       LOGIN (DEMO ONLY)
+    ========================== */
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const u = document.getElementById('username').value.trim();
+      alert(`Demo login only. Welcome, ${u || "player"}! (No real auth on GitHub Pages)`);
+      loginForm.reset();
+    });
+
+    /* =========================
+       DISCORD WIDGET TIP
+    ========================== */
+    const copyDiscordTip = document.getElementById('copyDiscordTip');
+    const discordTip = document.getElementById('discordTip');
+    copyDiscordTip.addEventListener('click', () => {
+      discordTip.style.display = (discordTip.style.display === "none") ? "block" : "none";
+    });
+  </script>
 </body>
 </html>
+```
