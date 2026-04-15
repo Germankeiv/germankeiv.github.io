@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GermanKeiv Network V9</title>
+<title>GermanKeiv Network V10</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
@@ -15,14 +15,18 @@ margin:0;
 font-family:Orbitron;
 color:white;
 overflow-x:hidden;
-background:radial-gradient(circle at 20% 20%,#00ffd5,transparent 40%),
+
+/* animated minecraft-style nebula */
+background:
+radial-gradient(circle at 20% 20%,#00ffd5,transparent 40%),
 radial-gradient(circle at 80% 30%,#ff00cc,transparent 40%),
 radial-gradient(circle at 50% 80%,#7a00ff,transparent 40%),
-linear-gradient(120deg,#000,#0a001a);
-animation:bg 10s infinite alternate;
+linear-gradient(120deg,#000,#120018);
+background-size:300% 300%;
+animation:bgmove 10s infinite alternate;
 }
 
-@keyframes bg{
+@keyframes bgmove{
 0%{background-position:0% 50%}
 100%{background-position:100% 50%}
 }
@@ -33,10 +37,38 @@ content:"";
 position:fixed;
 width:100%;
 height:100%;
-background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),
-linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);
+background-image:
+linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
 background-size:50px 50px;
 z-index:-1;
+}
+
+/* LOGIN */
+#login{
+position:fixed;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#000,#220044);
+z-index:9999;
+}
+
+/* MUSIC SELECT (AFTER LOGIN) */
+#musicSelect{
+display:none;
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(135deg,#001,#400040);
+z-index:9998;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 }
 
 /* NAV */
@@ -45,13 +77,13 @@ position:fixed;
 top:0;
 width:100%;
 display:flex;
-justify-content:center;
 flex-wrap:wrap;
+justify-content:center;
 gap:10px;
 padding:10px;
 background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
 z-index:999;
+backdrop-filter:blur(10px);
 }
 
 nav a{
@@ -66,8 +98,6 @@ padding:90px 10%;
 text-align:center;
 }
 
-h2{color:#00ffd5}
-
 /* CARDS */
 .card{
 background:rgba(0,0,0,0.5);
@@ -77,48 +107,49 @@ margin:10px;
 display:inline-block;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button{
 padding:10px 20px;
 border:none;
 border-radius:8px;
 background:linear-gradient(90deg,#00ffd5,#ff00cc);
 cursor:pointer;
+font-weight:bold;
 }
 
-/* LOGIN */
-#login{
-position:fixed;
-width:100%;
-height:100%;
-display:flex;
-justify-content:center;
-align-items:center;
-background:linear-gradient(135deg,#000,#220044);
-z-index:9999;
-flex-direction:column;
-}
-
-/* STORE */
-.store-item{
-background:rgba(0,0,0,0.5);
-padding:15px;
-border-radius:10px;
-margin:10px;
-display:inline-block;
-}
+/* STAFF */
+.owner{color:#ffd700}
+.admin{color:#00ffd5}
+.mod{color:#ff00cc}
 
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="login">
 <h1>🔐 Login</h1>
 <input id="user" placeholder="Username" style="padding:10px;">
 <br><br>
-<button onclick="login()">Enter Server</button>
+<button onclick="login()">Enter</button>
+</div>
+
+<!-- MUSIC SELECT (NEW FIXED FEATURE) -->
+<div id="musicSelect">
+<h1>🎵 Background Music</h1>
+<p>Do you want music enabled?</p>
+
+<button onclick="musicChoice(true)">YES 🎧</button>
+<button onclick="musicChoice(false)">NO 🔇</button>
+
+<br><br>
+
+<p>Volume</p>
+<input type="range" min="0" max="1" step="0.01" oninput="setVolume(this.value)">
+<br><br>
+
+<button onclick="mute()">Mute</button>
 </div>
 
 <!-- NAV -->
@@ -126,8 +157,10 @@ display:inline-block;
 <a href="#home">Home</a>
 <a href="#store">Store</a>
 <a href="#vote">Vote</a>
-<a href="#profile">Profile</a>
 <a href="#arcade">Arcade</a>
+<a href="#leaderboard">Leaderboard</a>
+<a href="#staff">Staff</a>
+<a href="#discord">Discord</a>
 </nav>
 
 <!-- HOME -->
@@ -136,32 +169,18 @@ display:inline-block;
 <p>Welcome <span id="pname"></span></p>
 </section>
 
-<!-- PROFILE -->
-<section id="profile">
-<h2>Profile</h2>
-<div class="card">
-Name: <span id="nameOut"></span><br>
-Coins: <span id="coins">0</span>
-</div>
-</section>
-
 <!-- STORE -->
 <section id="store">
 <h2>Store 🛒</h2>
 
-<div class="store-item">
-Rank VIP - 100 coins<br>
-<button onclick="buy(100,'VIP')">Buy</button>
+<div class="card">
+VIP Rank - 100 coins
+<button onclick="buy(100)">Buy</button>
 </div>
 
-<div class="store-item">
-Sword Skin - 50 coins<br>
-<button onclick="buy(50,'Sword Skin')">Buy</button>
-</div>
-
-<div class="store-item">
-Pet Wolf - 150 coins<br>
-<button onclick="buy(150,'Wolf')">Buy</button>
+<div class="card">
+Sword Skin - 50 coins
+<button onclick="buy(50)">Buy</button>
 </div>
 
 </section>
@@ -169,16 +188,45 @@ Pet Wolf - 150 coins<br>
 <!-- VOTE -->
 <section id="vote">
 <h2>Vote 🗳</h2>
-
-<p>Vote for the server and get coins</p>
-<button onclick="vote()">Vote Now</button>
+<button onclick="vote()">Vote for Rewards</button>
 </section>
 
 <!-- ARCADE -->
 <section id="arcade">
 <h2>Arcade 🎮</h2>
-<button onclick="mine()">Mine (+coins)</button>
+<button onclick="mine()">Mine</button>
 <h3>Score: <span id="score">0</span></h3>
+</section>
+
+<!-- LEADERBOARD -->
+<section id="leaderboard">
+<h2>Leaderboard 🏆</h2>
+<button onclick="saveScore()">Save Score</button>
+<div id="lb"></div>
+</section>
+
+<!-- STAFF -->
+<section id="staff">
+<h2>Staff Team</h2>
+
+<div class="card">
+Owner: Y elijah ten
+</div>
+
+<div class="card admin">
+Admin Team
+</div>
+
+<div class="card mod">
+Moderators
+</div>
+
+</section>
+
+<!-- DISCORD -->
+<section id="discord">
+<h2>Discord</h2>
+<iframe src="https://discord.com/widget?id=YOUR_ID&theme=dark" width="350" height="500"></iframe>
 </section>
 
 <script>
@@ -192,47 +240,71 @@ function login(){
 user=document.getElementById("user").value||"Player";
 
 document.getElementById("login").style.display="none";
-
-document.getElementById("pname").innerText=user;
-document.getElementById("nameOut").innerText=user;
-
-load();
+document.getElementById("musicSelect").style.display="flex";
 }
 
-function load(){
-coins=localStorage.getItem(user+"_coins")||0;
-document.getElementById("coins").innerText=coins;
+/* ================= MUSIC SYSTEM ================= */
+let audio=new Audio();
+let muted=false;
+
+const songs=[
+"https://cdn.pixabay.com/audio/2022/03/15/ambient.mp3",
+"https://cdn.pixabay.com/audio/2022/10/soft.mp3",
+"https://cdn.pixabay.com/audio/2023/chill.mp3"
+];
+
+function musicChoice(on){
+document.getElementById("musicSelect").style.display="none";
+
+if(!on)return;
+
+audio.src=songs[Math.floor(Math.random()*songs.length)];
+audio.loop=true;
+audio.play();
 }
 
-/* ================= STORE ================= */
-function buy(price,item){
-if(coins>=price){
-coins-=price;
-alert("Purchased "+item);
-save();
-}else{
-alert("Not enough coins");
-}
+function setVolume(v){
+audio.volume=v;
 }
 
-function save(){
-localStorage.setItem(user+"_coins",coins);
-document.getElementById("coins").innerText=coins;
+function mute(){
+muted=!muted;
+audio.muted=muted;
 }
 
-/* ================= VOTE SYSTEM ================= */
-function vote(){
-alert("Thanks for voting! +50 coins");
-coins+=50;
-save();
-}
-
-/* ================= ARCADE ================= */
+/* ================= GAME ================= */
 function mine(){
 score++;
 coins++;
 document.getElementById("score").innerText=score;
-save();
+}
+
+/* ================= STORE ================= */
+function buy(price){
+if(coins>=price){
+coins-=price;
+alert("Purchased!");
+}else alert("Not enough coins");
+}
+
+/* ================= VOTE ================= */
+function vote(){
+coins+=50;
+alert("+50 coins for voting!");
+}
+
+/* ================= LEADERBOARD ================= */
+function saveScore(){
+let data=JSON.parse(localStorage.getItem("lb")||"[]");
+data.push({user,score});
+data=data.sort((a,b)=>b.score-a.score).slice(0,5);
+localStorage.setItem("lb",JSON.stringify(data));
+
+let box=document.getElementById("lb");
+box.innerHTML="";
+data.forEach((p,i)=>{
+box.innerHTML+=`<div>#${i+1} ${p.user} - ${p.score}</div>`;
+});
 }
 
 </script>
